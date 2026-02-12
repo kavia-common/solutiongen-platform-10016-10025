@@ -210,7 +210,10 @@
 .udcMain{
   width: min(1040px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 28px 0 48px;
+  /* Top padding tuned so the visual gap between the header subtitle
+     and the main "Upload Documents & Configure" heading is ~50px,
+     without affecting other vertical rhythm. */
+  padding: 50px 0 48px;
 }
 
 .udcTitleBlock{
