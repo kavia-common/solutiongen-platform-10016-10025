@@ -309,17 +309,17 @@
   padding: 16px 18px 18px;
 }
 
-/* Header row in card: compact pill with amber text and subtle outline */
+/* Header row in card: keep layout, but remove pill/outline visuals */
 .udcCardTitleRow{
   display:flex;
   align-items:center;
   gap: 6px;
   margin-bottom: 12px;
-  padding: 3px 12px;
-  border-radius: 999px;
-  background-color: #050814;
-  border: 1px solid rgba(250, 204, 21, 0.25);
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8);
+  padding: 0;              /* remove pill padding */
+  border-radius: 0;        /* remove pill rounding */
+  background-color: transparent; /* remove pill background */
+  border: none;            /* remove outline */
+  box-shadow: none;        /* remove surrounding ring */
 }
 
 /* Small amber status dot – used as a subtle leading accent */
@@ -330,14 +330,14 @@
   background: #FACC15;
 }
 
-/* Upload card title – compact, bright amber, bold */
+/* Upload card title – clean text (no glow/outline effects) */
 .udcCardTitle{
   font-size: 11.75px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: none;
   color: #FACC15;
-  text-shadow: 0 0 24px rgba(250, 204, 21, 0.25);
+  text-shadow: none; /* remove glow/outline effect around text */
 }
 
 /* Dropzone panel – inner surface of Upload Project Documents card
