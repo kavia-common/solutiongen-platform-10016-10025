@@ -331,31 +331,30 @@ function UploadIcon() {
   return (
     <svg
       className="udcIcon"
-      width="24"
-      height="24"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
     >
-      {/* Outer circular ring to match screenshot style */}
       <circle
         cx="12"
         cy="12"
-        r="9.25"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        opacity="0.9"
-      />
-      <path
-        d="M12 14V8"
+        r="8.5"
         stroke="currentColor"
         strokeWidth="1.6"
+        opacity="0.95"
+      />
+      <path
+        d="M12 14V9"
+        stroke="currentColor"
+        strokeWidth="1.7"
         strokeLinecap="round"
       />
       <path
-        d="M9.5 10.5 12 8l2.5 2.5"
+        d="M9.75 11.25 12 9l2.25 2.25"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
