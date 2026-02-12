@@ -336,6 +336,13 @@
   text-shadow: none;
 }
 
+.udcUploadHeaderIcon{
+  display: block;
+  width: 14px;
+  height: 14px;
+  color: rgba(148,163,184,0.85); /* muted slate/gray like screenshot */
+}
+
 /* Inset panel that holds the dotted dropzone (gives the "nested card" look). */
 .udcUploadInset{
   background: rgba(255,255,255,0.02);

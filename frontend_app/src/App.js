@@ -121,7 +121,7 @@ function App() {
         <section className="udcCards" aria-label="Upload and configuration">
           <Card
             title="Upload Project Documents"
-            icon={<YellowDot />}
+            icon={<UploadCardHeaderIcon />}
             ariaLabel="Upload Project Documents"
           >
             <div className="udcUploadInset">
@@ -303,6 +303,40 @@ function Card({ title, icon, children, ariaLabel }) {
 
 function YellowDot() {
   return <span className="udcYellowDot" />;
+}
+
+function UploadCardHeaderIcon() {
+  return (
+    <svg
+      className="udcUploadHeaderIcon"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 3v10"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.5 6.5 12 3l3.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 14.5v4A2.5 2.5 0 0 0 7.5 21h9A2.5 2.5 0 0 0 19 18.5v-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 function Stepper({ steps, currentStep = 0, ariaLabel }) {
