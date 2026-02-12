@@ -340,7 +340,27 @@
   display: block;
   width: 14px;
   height: 14px;
-  color: rgba(148,163,184,0.85); /* muted slate/gray like screenshot */
+  color: rgba(148,163,184,0.85); /* muted slate/gray (kept for other uses) */
+}
+
+/* Upload card header: yellow rounded-square icon like the screenshot */
+.udcUploadHeaderYellowIcon{
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: #FACC15;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.18) inset;
+  flex-shrink: 0;
+}
+
+.udcUploadHeaderYellowIconGlyph{
+  width: 12px;
+  height: 12px;
+  display: block;
+  color: #111111; /* dark glyph on yellow */
 }
 
 /* Inset panel that holds the dotted dropzone (gives the "nested card" look). */
