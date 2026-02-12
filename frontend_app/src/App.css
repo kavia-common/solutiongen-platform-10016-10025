@@ -386,7 +386,8 @@
 
 .udcDropzone:hover{
   border-color: rgba(148, 163, 184, 0.65);
-  background: rgba(255,255,255,0.03);
+  /* Hover-only: light yellow tint, matching screenshot (non-hover remains unchanged) */
+  background: rgba(250, 204, 21, 0.14);
 }
 
 .udcDropzone:focus-visible{
