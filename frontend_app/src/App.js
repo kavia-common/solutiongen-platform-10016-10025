@@ -259,19 +259,7 @@ function HeaderBar() {
             </div>
           </div>
         </div>
-
-        {/* Center nav and right button remain from existing layout */}
-        <nav className="udcNav" aria-label="Primary">
-          <NavPill label="Home" />
-          <NavPill label="Create" active />
-          <NavPill label="Manage" />
-          <NavPill label="Workflows" />
-          <NavPill label="Support" />
-        </nav>
-
-        <button type="button" className="udcProfileBtn">
-          Preview
-        </button>
+        {/* Navigation tabs and Preview button intentionally removed per spec */}
       </div>
     </header>
   );
