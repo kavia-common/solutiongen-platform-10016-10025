@@ -106,8 +106,15 @@ function App() {
         <section className="udcTitleBlock" aria-label="Page title">
           <h1 className="udcTitle">Upload Documents &amp; Configure</h1>
           <p className="udcSubtitle">
-            Start by uploading your PDFs and setting the analysis output type.
+            Start by uploading your own documents and configuring your Demo on
+            Demand experience.
           </p>
+
+          <Stepper
+            steps={["Upload", "Output", "Personalize", "Done"]}
+            currentStep={0}
+            ariaLabel="Progress"
+          />
         </section>
 
         <section className="udcCards" aria-label="Upload and configuration">
@@ -246,30 +253,33 @@ function HeaderBar() {
         </div>
 
         <nav className="udcNav" aria-label="Primary">
-          <NavPill label="Upload" icon={<CloudIcon />} active />
-          <NavPill label="Analyze" icon={<WandIcon />} />
-          <NavPill label="Ask" icon={<ChatIcon />} />
-          <NavPill label="Share" icon={<ShareIcon />} />
+          <NavPill label="Home" />
+          <NavPill label="Create" active />
+          <NavPill label="Manage" />
+          <NavPill label="Workflows" />
+          <NavPill label="Support" />
         </nav>
 
         <button type="button" className="udcProfileBtn">
-          Profile
+          Preview
         </button>
       </div>
     </header>
   );
 }
 
-function NavPill({ label, icon, active = false }) {
+function NavPill({ label, icon = null, active = false }) {
   return (
     <button
       type="button"
       className={["udcNavPill", active ? "isActive" : ""].join(" ")}
       aria-current={active ? "page" : undefined}
     >
-      <span className="udcNavIcon" aria-hidden="true">
-        {icon}
-      </span>
+      {icon ? (
+        <span className="udcNavIcon" aria-hidden="true">
+          {icon}
+        </span>
+      ) : null}
       <span className="udcNavLabel">{label}</span>
     </button>
   );
@@ -291,6 +301,40 @@ function Card({ title, icon, children, ariaLabel }) {
 
 function YellowDot() {
   return <span className="udcYellowDot" />;
+}
+
+function Stepper({ steps, currentStep = 0, ariaLabel }) {
+  return (
+    <div className="udcStepperWrap" aria-label={ariaLabel}>
+      <ol className="udcStepper" role="list">
+        {steps.map((label, idx) => {
+          const state =
+            idx < currentStep ? "isComplete" : idx === currentStep ? "isActive" : "";
+          const nextState =
+            idx + 1 < currentStep
+              ? "isComplete"
+              : idx + 1 === currentStep
+                ? "isActive"
+                : "";
+
+          return (
+            <li className="udcStep" key={`${label}-${idx}`}>
+              <div className="udcStepTop" aria-hidden="true">
+                <span className={["udcStepDot", state].join(" ")} />
+                {idx < steps.length - 1 ? (
+                  <span
+                    className={["udcStepLine", state, nextState].join(" ")}
+                  />
+                ) : null}
+              </div>
+
+              <div className={["udcStepLabel", state].join(" ")}>{label}</div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
 }
 
 /* Simple inline icons (SVG). */
