@@ -120,9 +120,9 @@ function App() {
 
         <section className="udcCards" aria-label="Upload and configuration">
           <Card
-            title="Upload project documents"
+            title="Upload Project Documents"
             icon={<YellowDot />}
-            ariaLabel="Upload project documents"
+            ariaLabel="Upload Project Documents"
           >
             <div
               className={[
