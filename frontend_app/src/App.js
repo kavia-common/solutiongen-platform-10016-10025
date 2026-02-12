@@ -124,38 +124,40 @@ function App() {
             icon={<YellowDot />}
             ariaLabel="Upload Project Documents"
           >
-            <div
-              className={[
-                "udcDropzone",
-                isDragOver ? "isDragOver" : "",
-              ].join(" ")}
-              role="button"
-              tabIndex={0}
-              aria-label="Drop files here or click to browse"
-              onClick={openFilePicker}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") openFilePicker();
-              }}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              onDragLeave={onDragLeave}
-            >
-              <UploadIcon />
-              <div className="udcDropzonePrimary">
-                Drop files here or click to browse
-              </div>
-              <div className="udcDropzoneHelper">
-                PDF: Word, Text, Notion, PowerPoint
-              </div>
+            <div className="udcUploadInset">
+              <div
+                className={[
+                  "udcDropzone",
+                  isDragOver ? "isDragOver" : "",
+                ].join(" ")}
+                role="button"
+                tabIndex={0}
+                aria-label="Drop files here or click to browse"
+                onClick={openFilePicker}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") openFilePicker();
+                }}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                onDragLeave={onDragLeave}
+              >
+                <UploadIcon />
+                <div className="udcDropzonePrimary">
+                  Drop files here or click to browse
+                </div>
+                <div className="udcDropzoneHelper">
+                  PDF: Word, Text, Notion, PowerPoint
+                </div>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="application/pdf,.pdf"
-                multiple
-                className="udcFileInput"
-                onChange={(e) => onFilesSelected(e.target.files)}
-              />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  multiple
+                  className="udcFileInput"
+                  onChange={(e) => onFilesSelected(e.target.files)}
+                />
+              </div>
             </div>
 
             {files.length > 0 && (
