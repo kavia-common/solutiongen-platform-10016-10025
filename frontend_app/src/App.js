@@ -103,6 +103,13 @@ function App() {
       <HeaderBar />
 
       <main className="udcMain">
+        {/* Numbered stepper row above the main heading, matching design */}
+        <Stepper
+          steps={["Input", "Gap Analysis", "Review", "Generation", "Output"]}
+          currentStep={0}
+          ariaLabel="Demo on Demand setup steps"
+        />
+
         <section className="udcTitleBlock" aria-label="Page title">
           <h1 className="udcTitle">Upload Documents &amp; Configure</h1>
           <p className="udcSubtitle">
@@ -299,27 +306,16 @@ function Stepper({ steps, currentStep = 0, ariaLabel }) {
     <div className="udcStepperWrap" aria-label={ariaLabel}>
       <ol className="udcStepper" role="list">
         {steps.map((label, idx) => {
-          const state =
-            idx < currentStep ? "isComplete" : idx === currentStep ? "isActive" : "";
-          const nextState =
-            idx + 1 < currentStep
-              ? "isComplete"
-              : idx + 1 === currentStep
-                ? "isActive"
-                : "";
+          const isActive = idx === currentStep;
+          const stepNumber = idx + 1;
 
           return (
-            <li className="udcStep" key={`${label}-${idx}`}>
-              <div className="udcStepTop" aria-hidden="true">
-                <span className={["udcStepDot", state].join(" ")} />
-                {idx < steps.length - 1 ? (
-                  <span
-                    className={["udcStepLine", state, nextState].join(" ")}
-                  />
-                ) : null}
-              </div>
-
-              <div className={["udcStepLabel", state].join(" ")}>{label}</div>
+            <li
+              key={`${label}-${idx}`}
+              className={["udcStep", isActive ? "isActive" : ""].join(" ").trim()}
+            >
+              <span className="udcStepCircle">{stepNumber}</span>
+              <span className="udcStepLabel">{label}</span>
             </li>
           );
         })}
