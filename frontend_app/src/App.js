@@ -1,48 +1,521 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo, useRef, useState } from "react";
+import "./App.css";
+
+/**
+ * Screen 1: Upload Documents & Configure
+ * Implements the UI from assets/upload_documents_configure_design_notes.md.
+ */
 
 // PUBLIC_INTERFACE
 function App() {
-  const [theme, setTheme] = useState('light');
+  /** Selected output type (single-select). */
+  const [outputType, setOutputType] = useState("summary");
+  /** Company name input. */
+  const [companyName, setCompanyName] = useState("");
+  /** Uploaded file list (PDF). */
+  const [files, setFiles] = useState([]);
 
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef(null);
 
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+  const canContinue = useMemo(() => {
+    return files.length > 0 && companyName.trim().length > 0 && !!outputType;
+  }, [files.length, companyName, outputType]);
+
+  const outputOptions = useMemo(
+    () => [
+      {
+        id: "summary",
+        title: "Document Summary",
+        description: "Generate a comprehensive summary",
+        icon: <DocIcon />,
+      },
+      {
+        id: "presentation",
+        title: "Presentation",
+        description: "Create slides-ready key points",
+        icon: <SlidesIcon />,
+      },
+      {
+        id: "interactive",
+        title: "Interactive Demo",
+        description: "Build an interactive experience",
+        icon: <SparkIcon />,
+      },
+    ],
+    []
+  );
+
+  function openFilePicker() {
+    if (fileInputRef.current) fileInputRef.current.click();
+  }
+
+  function onFilesSelected(fileList) {
+    const incoming = Array.from(fileList || []);
+    const pdfsOnly = incoming.filter(
+      (f) =>
+        f.type === "application/pdf" ||
+        f.name.toLowerCase().endsWith(".pdf")
+    );
+
+    // Keep it simple: append PDFs, ignore non-PDFs.
+    setFiles((prev) => [...prev, ...pdfsOnly]);
+  }
+
+  function onDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+
+    if (e.dataTransfer?.files?.length) {
+      onFilesSelected(e.dataTransfer.files);
+    }
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  }
+
+  function onDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  }
+
+  function removeFile(index) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function onContinue() {
+    // No routing in template; keep as a stub action.
+    // In later steps, wire to next screen / backend.
+    if (!canContinue) return;
+    // eslint-disable-next-line no-alert
+    alert(
+      `Continue\n\nCompany: ${companyName}\nOutput: ${outputType}\nFiles: ${files.length}`
+    );
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="udcPage">
+      <HeaderBar />
+
+      <main className="udcMain">
+        <section className="udcTitleBlock" aria-label="Page title">
+          <h1 className="udcTitle">Upload Documents &amp; Configure</h1>
+          <p className="udcSubtitle">
+            Start by uploading your PDFs and setting the analysis output type.
+          </p>
+        </section>
+
+        <section className="udcCards" aria-label="Upload and configuration">
+          <Card
+            title="Upload PDF Documents"
+            icon={<YellowDot />}
+            ariaLabel="Upload PDF documents"
+          >
+            <div
+              className={[
+                "udcDropzone",
+                isDragOver ? "isDragOver" : "",
+              ].join(" ")}
+              role="button"
+              tabIndex={0}
+              aria-label="Drop files here or click to browse"
+              onClick={openFilePicker}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") openFilePicker();
+              }}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onDragLeave={onDragLeave}
+            >
+              <UploadIcon />
+              <div className="udcDropzonePrimary">
+                Drop files here or click to browse
+              </div>
+              <div className="udcDropzoneHelper">Supported formats: PDF</div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf,.pdf"
+                multiple
+                className="udcFileInput"
+                onChange={(e) => onFilesSelected(e.target.files)}
+              />
+            </div>
+
+            {files.length > 0 && (
+              <div className="udcFileList" aria-label="Selected files">
+                {files.map((f, idx) => (
+                  <div className="udcFileRow" key={`${f.name}-${idx}`}>
+                    <span className="udcFileName" title={f.name}>
+                      {f.name}
+                    </span>
+                    <button
+                      type="button"
+                      className="udcFileRemove"
+                      onClick={() => removeFile(idx)}
+                      aria-label={`Remove ${f.name}`}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          <Card
+            title="Configuration"
+            icon={<YellowDot />}
+            ariaLabel="Configuration"
+          >
+            <div className="udcForm">
+              <label className="udcLabel" htmlFor="companyName">
+                Company Name
+              </label>
+              <input
+                id="companyName"
+                className="udcInput"
+                placeholder="Enter company name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
+
+              <div className="udcSectionHeader">Choose Output Type</div>
+
+              <div
+                className="udcOutputGrid"
+                role="radiogroup"
+                aria-label="Choose output type"
+              >
+                {outputOptions.map((opt) => {
+                  const selected = opt.id === outputType;
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      className={[
+                        "udcTile",
+                        selected ? "isSelected" : "",
+                      ].join(" ")}
+                      role="radio"
+                      aria-checked={selected}
+                      onClick={() => setOutputType(opt.id)}
+                    >
+                      <div className="udcTileIcon">{opt.icon}</div>
+                      <div className="udcTileTitle">{opt.title}</div>
+                      <div className="udcTileDesc">{opt.description}</div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="udcCtaRow">
+                <button
+                  type="button"
+                  className="udcCtaButton"
+                  onClick={onContinue}
+                  disabled={!canContinue}
+                >
+                  Continue to Gap Analysis
+                  <span className="udcCtaArrow" aria-hidden="true">
+                    <ArrowRightIcon />
+                  </span>
+                </button>
+              </div>
+            </div>
+          </Card>
+        </section>
+      </main>
     </div>
+  );
+}
+
+function HeaderBar() {
+  return (
+    <header className="udcHeader" aria-label="Top navigation">
+      <div className="udcHeaderInner">
+        <div className="udcBrand" aria-label="Demo on Demand">
+          <span className="udcBrandDot" aria-hidden="true" />
+          <span className="udcBrandText">Demo on Demand</span>
+        </div>
+
+        <nav className="udcNav" aria-label="Primary">
+          <NavPill label="Upload" icon={<CloudIcon />} active />
+          <NavPill label="Analyze" icon={<WandIcon />} />
+          <NavPill label="Ask" icon={<ChatIcon />} />
+          <NavPill label="Share" icon={<ShareIcon />} />
+        </nav>
+
+        <button type="button" className="udcProfileBtn">
+          Profile
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function NavPill({ label, icon, active = false }) {
+  return (
+    <button
+      type="button"
+      className={["udcNavPill", active ? "isActive" : ""].join(" ")}
+      aria-current={active ? "page" : undefined}
+    >
+      <span className="udcNavIcon" aria-hidden="true">
+        {icon}
+      </span>
+      <span className="udcNavLabel">{label}</span>
+    </button>
+  );
+}
+
+function Card({ title, icon, children, ariaLabel }) {
+  return (
+    <section className="udcCard" aria-label={ariaLabel}>
+      <div className="udcCardTitleRow">
+        <span className="udcCardTitleIcon" aria-hidden="true">
+          {icon}
+        </span>
+        <div className="udcCardTitle">{title}</div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function YellowDot() {
+  return <span className="udcYellowDot" />;
+}
+
+/* Simple inline icons (SVG). */
+function UploadIcon() {
+  return (
+    <svg
+      className="udcIcon"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 3v10"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 7l4-4 4 4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 14v4a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowRightIcon() {
+  return (
+    <svg
+      className="udcArrowIcon"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12h12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13 6l6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function DocIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 3h7l3 3v15a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 3v4a2 2 0 0 0 2 2h4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 13h8M8 17h6"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function SlidesIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 5h16v10H4V5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 19h8"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12 15v4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M7 9h4M7 12h7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function SparkIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 2l1.2 4.8L18 8l-4.8 1.2L12 14l-1.2-4.8L6 8l4.8-1.2L12 2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M19 13l.8 3.2L23 17l-3.2.8L19 21l-.8-3.2L15 17l3.2-.8L19 13Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CloudIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 18h10a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.5 2A3.5 3.5 0 0 0 7 18Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function WandIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 20l10-10"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 10l6-6"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15 3l1 2M19 7l2 1M12 6l2-1"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ChatIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M6 18l-2 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H7l-1 2Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 9h8M8 12h6"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M16 8a3 3 0 1 0-2.9-3.7"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M6 14a3 3 0 1 0 2.9 3.7"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.6 15.3l6.8-3.6"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.6 8.7l6.8 3.6"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <circle cx="18" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="6" cy="18" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+    </svg>
   );
 }
 
