@@ -247,11 +247,20 @@ function HeaderBar() {
   return (
     <header className="udcHeader" aria-label="Top navigation">
       <div className="udcHeaderInner">
-        <div className="udcBrand" aria-label="Demo on Demand">
-          <span className="udcBrandDot" aria-hidden="true" />
-          <span className="udcBrandText">Demo on Demand</span>
+        {/* Left: icon + title + subtitle, per header_title_subtitle_design_notes.md */}
+        <div className="udcHeaderContent" aria-label="Demo on Demand header">
+          <div className="udcHeaderIcon" aria-hidden="true">
+            <LightningBoltIcon />
+          </div>
+          <div className="udcHeaderText">
+            <div className="udcHeaderTitle">Demo on Demand</div>
+            <div className="udcHeaderSubtitle">
+              Documents, decks, and demos — powered by AI
+            </div>
+          </div>
         </div>
 
+        {/* Center nav and right button remain from existing layout */}
         <nav className="udcNav" aria-label="Primary">
           <NavPill label="Home" />
           <NavPill label="Create" active />
@@ -559,6 +568,19 @@ function ShareIcon() {
       />
       <circle cx="18" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7" />
       <circle cx="6" cy="18" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+    </svg>
+  );
+}
+
+/* Lightning bolt icon for header yellow square */
+function LightningBoltIcon() {
+  return (
+    <svg
+      className="udcHeaderIconBolt"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M13 2L6 13h5l-1 9 7-11h-5l1-9z" />
     </svg>
   );
 }
