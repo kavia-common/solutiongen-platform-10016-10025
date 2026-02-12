@@ -336,6 +336,8 @@
   letter-spacing: 0.02em;
   text-transform: none;
   color: var(--accent-yellow);
+  /* Explicitly disable any text outline/glow that might be inherited */
+  text-shadow: none;
 }
 
 /* Dropzone panel – inner surface of Upload Project Documents card
