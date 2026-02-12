@@ -342,13 +342,13 @@
 
 /* Dropzone panel – inner surface of Upload Project Documents card
    - flat dark navy panel
-   - crisp cool-gray border
+   - dotted cool-gray border (inner outline)
 */
 .udcDropzone{
   position: relative;
   border-radius: 18px;
   background-color: #111827;
-  border: 1px solid rgba(148, 163, 184, 0.55);
+  border: 1px dotted rgba(148, 163, 184, 0.55);
   padding: 24px 22px;
   text-align: center;
   cursor: pointer;
@@ -360,7 +360,7 @@
   outline: none;
 }
 
-/* Hover: very subtle lift + slightly brighter border */
+/* Hover: very subtle lift + slightly brighter dotted border */
 .udcDropzone:hover{
   background-color: #111827;
   border-color: rgba(248, 250, 252, 0.28);
@@ -368,13 +368,15 @@
   transform: translateY(-1px);
 }
 
+/* Keyboard focus uses an outer solid outline, keep border dotted */
 .udcDropzone:focus-visible{
   outline: 2px solid rgba(245,197,66,0.65);
   outline-offset: 2px;
 }
 
-/* Drag-over: strong amber ring */
+/* Drag-over: strong amber ring on top of dotted border */
 .udcDropzone.isDragOver{
+  border-style: dotted;
   border-color: rgba(245,197,66,0.92);
   box-shadow:
     0 0 0 1px rgba(15,23,42,1),
