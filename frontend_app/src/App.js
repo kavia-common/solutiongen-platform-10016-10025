@@ -109,12 +109,6 @@ function App() {
             Start by uploading your own documents and configuring your Demo on
             Demand experience.
           </p>
-
-          <Stepper
-            steps={["Upload", "Output", "Personalize", "Done"]}
-            currentStep={0}
-            ariaLabel="Progress"
-          />
         </section>
 
         <section className="udcCards" aria-label="Upload and configuration">
