@@ -144,7 +144,9 @@ function App() {
               <div className="udcDropzonePrimary">
                 Drop files here or click to browse
               </div>
-              <div className="udcDropzoneHelper">Supported formats: PDF</div>
+              <div className="udcDropzoneHelper">
+                PDF: Word, Text, Notion, PowerPoint
+              </div>
 
               <input
                 ref={fileInputRef}
