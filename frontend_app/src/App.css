@@ -46,10 +46,8 @@
   min-height: 100vh;
   color: var(--text-primary);
   font-family: Inter, Helvetica Neue, Arial, sans-serif;
-  background:
-    radial-gradient(900px 520px at 50% 24%, rgba(33, 63, 111, 0.22) 0%, rgba(7,11,18,0) 60%),
-    radial-gradient(700px 520px at 50% 54%, rgba(14, 27, 48, 0.70) 0%, rgba(7,11,18,1) 70%),
-    linear-gradient(180deg, var(--bg-canvas), var(--bg-canvas));
+  /* Full screen pure black background per updated spec */
+  background-color: #000000;
 }
 
 .udcHeader{
@@ -298,23 +296,29 @@
   gap: 16px;
 }
 
+/* Upload/configuration card container – match screenshot:
+   - solid surface rgb(18,24,38)
+   - subtle yellow‑tinted border
+   - very soft shadow
+*/
 .udcCard{
   border-radius: var(--radius-card);
-  /* Slightly darker, flatter card surface to match screenshot */
-  background: linear-gradient(180deg, rgba(7,11,18,0.96), rgba(7,11,18,0.96));
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
+  background-color: rgb(18, 24, 38);
+  border: 1px solid rgba(250, 204, 21, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
   padding: 14px 16px 16px;
 }
 
-/* Header row in card: slim dark bar with yellow label */
+/* Header row in card: slim dark bar with yellow title and left icon */
 .udcCardTitleRow{
   display:flex;
   align-items:center;
   gap: 8px;
-  margin-bottom: 10px;
-  padding: 4px 2px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
   border-radius: 999px;
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
 }
 
 /* Small amber status dot */
@@ -325,21 +329,24 @@
   background: var(--accent-yellow);
 }
 
-/* Upload card title – match screenshot: all caps feel via tight, bold small text */
+/* Upload card title – match screenshot: bold, small, amber */
 .udcCardTitle{
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   text-transform: none;
   color: var(--accent-yellow);
 }
 
-/* Dropzone panel */
+/* Dropzone panel – inner surface of Upload Project Documents card
+   - slightly lighter than card background
+   - crisp border similar to screenshot
+*/
 .udcDropzone{
   position: relative;
   border-radius: 14px;
-  background: #050b16; /* deeper navy similar to screenshot panel */
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  background-color: rgb(11, 16, 26);
+  border: 1px solid rgba(148, 163, 184, 0.40);
   padding: 22px 20px;
   text-align: center;
   cursor: pointer;
@@ -353,8 +360,8 @@
 
 /* Hover: subtle lift + slightly brighter border */
 .udcDropzone:hover{
-  background: #050d1b;
-  border-color: rgba(248, 250, 252, 0.20);
+  background-color: rgb(13, 19, 30);
+  border-color: rgba(248, 250, 252, 0.22);
   box-shadow: 0 14px 30px rgba(0,0,0,0.55);
   transform: translateY(-1px);
 }
@@ -366,13 +373,13 @@
 
 /* Drag-over: strong amber ring */
 .udcDropzone.isDragOver{
-  border-color: rgba(245,197,66,0.75);
+  border-color: rgba(245,197,66,0.85);
   box-shadow:
-    0 0 0 2px rgba(17,24,39,1),
-    0 0 0 4px rgba(245,197,66,0.32);
+    0 0 0 1px rgba(15,23,42,1),
+    0 0 0 3px rgba(245,197,66,0.40);
 }
 
-/* Center icon above text, amber like screenshot */
+/* Center icon above text: circular amber icon as in screenshot */
 .udcIcon{
   color: var(--accent-yellow);
   margin: 0 auto 10px;
