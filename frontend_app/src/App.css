@@ -578,8 +578,8 @@
 }
 
 .udcTile.isSelected{
-  /* Selected outline should be a darker yellow per screenshot, without changing other states */
-  border-color: #F0C419;
+  /* Selected outline should match the same darker yellow used by card titles (see .udcCardTitle). */
+  border-color: #FACC15;
   background: var(--chip-bg);
 }
 
