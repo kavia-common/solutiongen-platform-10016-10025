@@ -41,7 +41,7 @@ function App() {
       {
         id: "interactive",
         title: "Interactive Demo",
-        description: "Build an interactive experience",
+        description: "Live prototype, walkthrough",
         icon: <SparkIcon />,
       },
     ],
