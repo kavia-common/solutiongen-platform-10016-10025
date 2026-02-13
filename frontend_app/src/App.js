@@ -394,16 +394,17 @@ function UploadCardHeaderYellowIcon() {
         fill="none"
         focusable="false"
       >
+        {/* Bigger arrow glyph (bold, single-icon) to match the screenshot */}
         <path
-          d="M12 16V8"
+          d="M12 19V7"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.6"
           strokeLinecap="round"
         />
         <path
-          d="M8.75 11.25 12 8l3.25 3.25"
+          d="M7.25 11.25 12 6.5l4.75 4.75"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
