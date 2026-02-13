@@ -459,14 +459,14 @@
 
 /* Dropzone typography: smaller/lighter than previous iteration */
 .udcDropzonePrimary{
-  font-size: 11.5px;
+  font-size: 13.5px;
   font-weight: 600;
   color: rgba(255,255,255,0.88);
 }
 
 .udcDropzoneHelper{
   margin-top: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 400;
   color: rgba(148,163,184,0.70);
 }
