@@ -125,6 +125,7 @@ function App() {
             title="Upload Project Documents"
             icon={<UploadCardHeaderYellowIcon />}
             ariaLabel="Upload Project Documents"
+            className="udcCard--taller100"
           >
             <div className="udcUploadInset">
               <div
@@ -187,6 +188,7 @@ function App() {
             title="Choose Output Type"
             icon={<ChooseOutputTypeHeaderYellowIcon />}
             ariaLabel="Choose Output Type"
+            className="udcCard--taller100"
           >
             <div
               className="udcOutputGrid"
@@ -225,6 +227,7 @@ function App() {
             title="Configuration"
             icon={<ConfigurationHeaderYellowIcon />}
             ariaLabel="Configuration"
+            className="udcCard--taller100"
           >
             <div className="udcForm">
               <label className="udcLabel" htmlFor="companyName">
@@ -309,9 +312,9 @@ function NavPill({ label, icon = null, active = false }) {
   );
 }
 
-function Card({ title, icon, children, ariaLabel }) {
+function Card({ title, icon, children, ariaLabel, className = "" }) {
   return (
-    <section className="udcCard" aria-label={ariaLabel}>
+    <section className={["udcCard", className].join(" ").trim()} aria-label={ariaLabel}>
       <div className="udcCardTitleRow">
         <span className="udcCardTitleIcon" aria-hidden="true">
           {icon}
