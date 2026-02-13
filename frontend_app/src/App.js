@@ -742,23 +742,41 @@ function PresentationTileIcon() {
 
 function InteractiveDemoTileIcon() {
   return (
-    <OutputTypeTileBadge>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
-        <path
-          d="M10.5 7.8 15.8 12l-5.3 4.2V7.8Z"
-          fill="#111111"
-        />
+    <span
+      aria-hidden="true"
+      style={{
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        // Light yellow tile behind icon (match screenshot + other updated tiles)
+        background: "rgba(250, 204, 21, 0.22)",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
+      }}
+    >
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        focusable="false"
+        aria-hidden="true"
+      >
+        {/* Yellow glyph (play-in-a-tile) to match screenshot */}
+        <path d="M10.5 7.8 15.8 12l-5.3 4.2V7.8Z" fill="#FACC15" />
         <rect
           x="5.5"
           y="5.5"
           width="13"
           height="13"
           rx="2.2"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
         />
       </svg>
-    </OutputTypeTileBadge>
+    </span>
   );
 }
 
