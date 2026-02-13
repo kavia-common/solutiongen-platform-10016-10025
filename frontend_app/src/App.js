@@ -202,6 +202,8 @@ function App() {
                     className={[
                       "udcTile",
                       opt.id === "summary" ? "udcTile--document" : "",
+                      opt.id === "presentation" ? "udcTile--presentation" : "",
+                      opt.id === "interactive" ? "udcTile--interactive" : "",
                       selected ? "isSelected" : "",
                     ]
                       .join(" ")

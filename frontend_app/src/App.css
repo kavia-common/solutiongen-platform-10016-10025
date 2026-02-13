@@ -581,8 +581,10 @@
   background: var(--chip-bg);
 }
 
-/* Document option: subtle, always-visible outline (per screenshot) */
-.udcTile.udcTile--document{
+/* Output type options: subtle, always-visible outline (per screenshot) */
+.udcTile.udcTile--document,
+.udcTile.udcTile--presentation,
+.udcTile.udcTile--interactive{
   border-color: rgba(255,255,255,0.12);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
 }
