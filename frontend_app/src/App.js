@@ -12,6 +12,8 @@ function App() {
   const [outputType, setOutputType] = useState("summary");
   /** Company name input. */
   const [companyName, setCompanyName] = useState("");
+  /** Tagline input (optional). */
+  const [tagline, setTagline] = useState("");
   /** Uploaded file list (PDF). */
   const [files, setFiles] = useState([]);
 
@@ -228,6 +230,17 @@ function App() {
                 placeholder="Enter company name"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
+              />
+
+              <label className="udcLabel" htmlFor="tagline">
+                Tagline (optional)
+              </label>
+              <input
+                id="tagline"
+                className="udcInput"
+                placeholder="Your company tagline"
+                value={tagline}
+                onChange={(e) => setTagline(e.target.value)}
               />
             </div>
           </Card>
