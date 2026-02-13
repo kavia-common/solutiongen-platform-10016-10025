@@ -35,7 +35,7 @@ function App() {
       {
         id: "presentation",
         title: "Presentation",
-        description: "Create slides-ready key points",
+        description: "Slide decks, pitch materials",
         icon: <SlidesIcon />,
       },
       {
