@@ -443,7 +443,8 @@
 
 /* Smaller icon like the screenshot */
 .udcIcon{
-  color: rgba(248,250,252,0.65);
+  /* Yellow icon to match screenshot; keep size/layout unchanged */
+  color: var(--accent-yellow);
   margin: 0 auto 8px;
   display: block;
 }
