@@ -8,8 +8,8 @@ import "./App.css";
 
 // PUBLIC_INTERFACE
 function App() {
-  /** Selected output type (single-select). No default selection. */
-  const [outputType, setOutputType] = useState("");
+  /** Selected output types (multi-select). No default selection. */
+  const [outputTypes, setOutputTypes] = useState([]);
   /** Company name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -21,8 +21,8 @@ function App() {
   const fileInputRef = useRef(null);
 
   const canContinue = useMemo(() => {
-    return files.length > 0 && companyName.trim().length > 0 && !!outputType;
-  }, [files.length, companyName, outputType]);
+    return files.length > 0 && companyName.trim().length > 0 && outputTypes.length > 0;
+  }, [files.length, companyName, outputTypes.length]);
 
   const outputOptions = useMemo(
     () => [
@@ -48,22 +48,23 @@ function App() {
     []
   );
 
+  // PUBLIC_INTERFACE
   function openFilePicker() {
     if (fileInputRef.current) fileInputRef.current.click();
   }
 
+  // PUBLIC_INTERFACE
   function onFilesSelected(fileList) {
     const incoming = Array.from(fileList || []);
     const pdfsOnly = incoming.filter(
-      (f) =>
-        f.type === "application/pdf" ||
-        f.name.toLowerCase().endsWith(".pdf")
+      (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
     );
 
     // Keep it simple: append PDFs, ignore non-PDFs.
     setFiles((prev) => [...prev, ...pdfsOnly]);
   }
 
+  // PUBLIC_INTERFACE
   function onDrop(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -74,29 +75,44 @@ function App() {
     }
   }
 
+  // PUBLIC_INTERFACE
   function onDragOver(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(true);
   }
 
+  // PUBLIC_INTERFACE
   function onDragLeave(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(false);
   }
 
+  // PUBLIC_INTERFACE
   function removeFile(index) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   }
 
+  // PUBLIC_INTERFACE
+  function toggleOutputType(typeId) {
+    setOutputTypes((prev) => {
+      if (prev.includes(typeId)) return prev.filter((t) => t !== typeId);
+      return [...prev, typeId];
+    });
+  }
+
+  // PUBLIC_INTERFACE
   function onContinue() {
     // No routing in template; keep as a stub action.
     // In later steps, wire to next screen / backend.
     if (!canContinue) return;
+
     // eslint-disable-next-line no-alert
     alert(
-      `Continue\n\nCompany: ${companyName}\nOutput: ${outputType}\nFiles: ${files.length}`
+      `Continue\n\nCompany: ${companyName}\nOutput: ${outputTypes.join(
+        ", "
+      )}\nFiles: ${files.length}`
     );
   }
 
@@ -128,10 +144,7 @@ function App() {
           >
             <div className="udcUploadInset">
               <div
-                className={[
-                  "udcDropzone",
-                  isDragOver ? "isDragOver" : "",
-                ].join(" ")}
+                className={["udcDropzone", isDragOver ? "isDragOver" : ""].join(" ")}
                 role="button"
                 tabIndex={0}
                 aria-label="Drop files here or click to browse"
@@ -144,12 +157,8 @@ function App() {
                 onDragLeave={onDragLeave}
               >
                 <UploadIcon />
-                <div className="udcDropzonePrimary">
-                  Drop files here or click to browse
-                </div>
-                <div className="udcDropzoneHelper">
-                  PDF: Word, Text, Notion, PowerPoint
-                </div>
+                <div className="udcDropzonePrimary">Drop files here or click to browse</div>
+                <div className="udcDropzoneHelper">PDF: Word, Text, Notion, PowerPoint</div>
 
                 <input
                   ref={fileInputRef}
@@ -188,13 +197,10 @@ function App() {
             icon={<ChooseOutputTypeHeaderYellowIcon />}
             ariaLabel="Choose Output Type"
           >
-            <div
-              className="udcOutputGrid"
-              role="radiogroup"
-              aria-label="Choose output type"
-            >
+            <div className="udcOutputGrid" role="group" aria-label="Choose output types">
               {outputOptions.map((opt) => {
-                const selected = opt.id === outputType;
+                const selected = outputTypes.includes(opt.id);
+
                 return (
                   <button
                     key={opt.id}
@@ -208,9 +214,8 @@ function App() {
                     ]
                       .join(" ")
                       .trim()}
-                    role="radio"
-                    aria-checked={selected}
-                    onClick={() => setOutputType(opt.id)}
+                    aria-pressed={selected}
+                    onClick={() => toggleOutputType(opt.id)}
                   >
                     <div className="udcTileIcon">{opt.icon}</div>
                     <div className="udcTileTitle">{opt.title}</div>
@@ -376,12 +381,7 @@ function UploadCardHeaderIcon() {
       fill="none"
       aria-hidden="true"
     >
-      <path
-        d="M12 3v10"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M12 3v10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       <path
         d="M8.5 6.5 12 3l3.5 3.5"
         stroke="currentColor"
@@ -410,12 +410,7 @@ function UploadCardHeaderYellowIcon() {
         focusable="false"
       >
         {/* Bigger arrow glyph (bold, single-icon) to match the screenshot */}
-        <path
-          d="M12 19V7"
-          stroke="currentColor"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-        />
+        <path d="M12 19V7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
         <path
           d="M7.25 11.25 12 6.5l4.75 4.75"
           stroke="currentColor"
@@ -501,12 +496,7 @@ function UploadIcon() {
         strokeWidth="1.6"
         opacity="0.95"
       />
-      <path
-        d="M12 14V9"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
+      <path d="M12 14V9" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <path
         d="M9.75 11.25 12 9l2.25 2.25"
         stroke="currentColor"
@@ -528,12 +518,7 @@ function ArrowRightIcon() {
       fill="none"
       aria-hidden="true"
     >
-      <path
-        d="M5 12h12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M5 12h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path
         d="M13 6l6 6-6 6"
         stroke="currentColor"
@@ -573,30 +558,10 @@ function DocIcon() {
 function SlidesIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M4 5h16v10H4V5Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 19h8"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 15v4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M7 9h4M7 12h7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+      <path d="M4 5h16v10H4V5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M8 19h8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M12 15v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M7 9h4M7 12h7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -670,27 +635,9 @@ function DocumentTileIcon() {
         aria-hidden="true"
       >
         {/* Document glyph should be yellow per screenshot */}
-        <rect
-          x="6.5"
-          y="4.5"
-          width="11"
-          height="15"
-          rx="2"
-          stroke="#FACC15"
-          strokeWidth="2"
-        />
-        <path
-          d="M9 11h6"
-          stroke="#FACC15"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M9 15h6"
-          stroke="#FACC15"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
+        <rect x="6.5" y="4.5" width="11" height="15" rx="2" stroke="#FACC15" strokeWidth="2" />
+        <path d="M9 11h6" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
+        <path d="M9 15h6" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
       </svg>
     </span>
   );
@@ -721,28 +668,10 @@ function PresentationTileIcon() {
         aria-hidden="true"
       >
         {/* Use yellow glyph (as in screenshot) */}
-        <rect
-          x="5.5"
-          y="6.5"
-          width="13"
-          height="9"
-          rx="1.8"
-          stroke="#FACC15"
-          strokeWidth="2"
-        />
+        <rect x="5.5" y="6.5" width="13" height="9" rx="1.8" stroke="#FACC15" strokeWidth="2" />
         {/* Stand */}
-        <path
-          d="M12 15.5v3"
-          stroke="#FACC15"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M9.5 19h5"
-          stroke="#FACC15"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
+        <path d="M12 15.5v3" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
+        <path d="M9.5 19h5" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
         {/* Rising chart line */}
         <path
           d="M8.2 13.2l2.6-2.7 2.2 2.0 2.7-3.2"
@@ -782,15 +711,7 @@ function InteractiveDemoTileIcon() {
       >
         {/* Yellow glyph (play-in-a-tile) to match screenshot */}
         <path d="M10.5 7.8 15.8 12l-5.3 4.2V7.8Z" fill="#FACC15" />
-        <rect
-          x="5.5"
-          y="5.5"
-          width="13"
-          height="13"
-          rx="2.2"
-          stroke="#FACC15"
-          strokeWidth="2"
-        />
+        <rect x="5.5" y="5.5" width="13" height="13" rx="2.2" stroke="#FACC15" strokeWidth="2" />
       </svg>
     </span>
   );
@@ -812,18 +733,8 @@ function CloudIcon() {
 function WandIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M4 20l10-10"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 10l6-6"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
+      <path d="M4 20l10-10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M14 10l6-6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <path
         d="M15 3l1 2M19 7l2 1M12 6l2-1"
         stroke="currentColor"
@@ -889,11 +800,7 @@ function ShareIcon() {
 /* Lightning bolt icon for header yellow square */
 function LightningBoltIcon() {
   return (
-    <svg
-      className="udcHeaderIconBolt"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg className="udcHeaderIconBolt" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M13 2L6 13h5l-1 9 7-11h-5l1-9z" />
     </svg>
   );
