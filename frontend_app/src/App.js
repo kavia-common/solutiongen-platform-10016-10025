@@ -678,30 +678,19 @@ function PresentationTileIcon() {
         focusable="false"
         aria-hidden="true"
       >
-        {/* Presentation board glyph: screen + stand + base, with two content lines (matches screenshot style). */}
+        {/* Screenshot-matching glyph: presentation screen + stand, with a rising chart line inside. */}
         <rect
-          x="6.5"
-          y="5.5"
-          width="11"
+          x="5.5"
+          y="6.5"
+          width="13"
           height="9"
-          rx="1.6"
+          rx="1.8"
           stroke="#111111"
           strokeWidth="2"
         />
+        {/* Stand */}
         <path
-          d="M10 9h4"
-          stroke="#111111"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M10 11.5h5"
-          stroke="#111111"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M12 14.5v3.3"
+          d="M12 15.5v3"
           stroke="#111111"
           strokeWidth="2"
           strokeLinecap="round"
@@ -711,6 +700,14 @@ function PresentationTileIcon() {
           stroke="#111111"
           strokeWidth="2"
           strokeLinecap="round"
+        />
+        {/* Rising chart line */}
+        <path
+          d="M8.2 13.2l2.6-2.7 2.2 2.0 2.7-3.2"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </OutputTypeTileBadge>
