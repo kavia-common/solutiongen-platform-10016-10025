@@ -182,25 +182,6 @@ function App() {
           </Card>
 
           <Card
-            title="Configuration"
-            icon={<YellowDot />}
-            ariaLabel="Configuration"
-          >
-            <div className="udcForm">
-              <label className="udcLabel" htmlFor="companyName">
-                Company Name
-              </label>
-              <input
-                id="companyName"
-                className="udcInput"
-                placeholder="Enter company name"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
-            </div>
-          </Card>
-
-          <Card
             title="Choose Output Type"
             icon={<YellowDot />}
             ariaLabel="Choose Output Type"
@@ -229,6 +210,25 @@ function App() {
                   </button>
                 );
               })}
+            </div>
+          </Card>
+
+          <Card
+            title="Configuration"
+            icon={<YellowDot />}
+            ariaLabel="Configuration"
+          >
+            <div className="udcForm">
+              <label className="udcLabel" htmlFor="companyName">
+                Company Name
+              </label>
+              <input
+                id="companyName"
+                className="udcInput"
+                placeholder="Enter company name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
             </div>
           </Card>
 
