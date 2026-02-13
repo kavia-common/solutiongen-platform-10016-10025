@@ -217,7 +217,7 @@ function App() {
 
           <Card
             title="Configuration"
-            icon={<YellowDot />}
+            icon={<ConfigurationHeaderYellowIcon />}
             ariaLabel="Configuration"
           >
             <div className="udcForm">
@@ -319,6 +319,36 @@ function Card({ title, icon, children, ariaLabel }) {
 
 function YellowDot() {
   return <span className="udcYellowDot" />;
+}
+
+/**
+ * Yellow rounded-square icon used in the "Configuration" card header.
+ * Matches the existing header icon pattern (yellow tile + dark glyph).
+ */
+function ConfigurationHeaderYellowIcon() {
+  return (
+    <span className="udcChooseOutputHeaderYellowIcon" aria-hidden="true">
+      <svg
+        className="udcChooseOutputHeaderYellowIconGlyph"
+        viewBox="0 0 24 24"
+        fill="none"
+        focusable="false"
+      >
+        {/* Simple gear-like glyph */}
+        <path
+          d="M12 9.3a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Z"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        <path
+          d="M12 3.5v2.1M12 18.4v2.1M3.5 12h2.1M18.4 12h2.1M5.9 5.9l1.5 1.5M16.6 16.6l1.5 1.5M18.1 5.9l-1.5 1.5M7.4 16.6l-1.5 1.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
 }
 
 function UploadCardHeaderIcon() {
