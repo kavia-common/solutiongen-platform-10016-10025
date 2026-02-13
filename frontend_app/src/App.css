@@ -642,7 +642,12 @@
 }
 
 .udcTileDesc{
-  font-size: 11.5px;
+  /* +3px per request for the output-type helper/description texts only:
+     - “Technical docs, reports, summaries”
+     - “Slide decks, pitch materials”
+     - “Live prototype, walkthrough”
+  */
+  font-size: 14.5px;
   color: var(--text-muted);
   line-height: 1.35;
 }
