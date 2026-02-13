@@ -199,9 +199,13 @@ function App() {
                   <button
                     key={opt.id}
                     type="button"
-                    className={["udcTile", selected ? "isSelected" : ""].join(
-                      " "
-                    )}
+                    className={[
+                      "udcTile",
+                      opt.id === "summary" ? "udcTile--document" : "",
+                      selected ? "isSelected" : "",
+                    ]
+                      .join(" ")
+                      .trim()}
                     role="radio"
                     aria-checked={selected}
                     onClick={() => setOutputType(opt.id)}
