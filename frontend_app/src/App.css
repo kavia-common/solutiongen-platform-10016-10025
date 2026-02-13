@@ -345,9 +345,10 @@
 
 /* Upload Project Documents header icon: light-yellow tile + yellow glyph (per screenshot) */
 .udcUploadHeaderYellowIcon{
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
+  /* Increased size to better match other card header icons while keeping styling unchanged */
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
   background: rgba(250, 204, 21, 0.18); /* light yellow tile */
   display: inline-flex;
   align-items: center;
@@ -357,8 +358,8 @@
 }
 
 .udcUploadHeaderYellowIconGlyph{
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   display: block;
   color: #FACC15; /* yellow glyph */
 }
