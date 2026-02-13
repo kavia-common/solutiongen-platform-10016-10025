@@ -327,9 +327,9 @@ function YellowDot() {
  */
 function ConfigurationHeaderYellowIcon() {
   return (
-    <span className="udcChooseOutputHeaderYellowIcon" aria-hidden="true">
+    <span className="udcConfigurationHeaderIcon" aria-hidden="true">
       <svg
-        className="udcChooseOutputHeaderYellowIconGlyph"
+        className="udcConfigurationHeaderIconGlyph"
         viewBox="0 0 24 24"
         fill="none"
         focusable="false"

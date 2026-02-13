@@ -383,6 +383,26 @@
   color: #111111; /* dark glyph on yellow */
 }
 
+/* Configuration card header icon: larger tile with light-yellow background and yellow glyph (per screenshot) */
+.udcConfigurationHeaderIcon{
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(250, 204, 21, 0.18); /* light yellow tile */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.20) inset;
+  flex-shrink: 0;
+}
+
+.udcConfigurationHeaderIconGlyph{
+  width: 14px;
+  height: 14px;
+  display: block;
+  color: #FACC15; /* yellow glyph */
+}
+
 /* Inset panel that holds the dotted dropzone (gives the "nested card" look). */
 .udcUploadInset{
   background: rgba(255,255,255,0.02);
