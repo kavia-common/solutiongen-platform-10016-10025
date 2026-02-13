@@ -682,7 +682,20 @@ function DocumentTileIcon() {
 
 function PresentationTileIcon() {
   return (
-    <OutputTypeTileBadge>
+    <span
+      aria-hidden="true"
+      style={{
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        // Light yellow tile behind icon (as in screenshot)
+        background: "rgba(250, 204, 21, 0.22)",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
+      }}
+    >
       <svg
         width="12"
         height="12"
@@ -691,39 +704,39 @@ function PresentationTileIcon() {
         focusable="false"
         aria-hidden="true"
       >
-        {/* Screenshot-matching glyph: presentation screen + stand, with a rising chart line inside. */}
+        {/* Use yellow glyph (as in screenshot) */}
         <rect
           x="5.5"
           y="6.5"
           width="13"
           height="9"
           rx="1.8"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
         />
         {/* Stand */}
         <path
           d="M12 15.5v3"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <path
           d="M9.5 19h5"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
           strokeLinecap="round"
         />
         {/* Rising chart line */}
         <path
           d="M8.2 13.2l2.6-2.7 2.2 2.0 2.7-3.2"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       </svg>
-    </OutputTypeTileBadge>
+    </span>
   );
 }
 
