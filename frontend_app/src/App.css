@@ -343,16 +343,16 @@
   color: rgba(148,163,184,0.85); /* muted slate/gray (kept for other uses) */
 }
 
-/* Upload card header: yellow rounded-square icon like the screenshot */
+/* Upload Project Documents header icon: light-yellow tile + yellow glyph (per screenshot) */
 .udcUploadHeaderYellowIcon{
   width: 16px;
   height: 16px;
   border-radius: 4px;
-  background: #FACC15;
+  background: rgba(250, 204, 21, 0.18); /* light yellow tile */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.18) inset;
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.20) inset;
   flex-shrink: 0;
 }
 
@@ -360,7 +360,7 @@
   width: 12px;
   height: 12px;
   display: block;
-  color: #111111; /* dark glyph on yellow */
+  color: #FACC15; /* yellow glyph */
 }
 
 /* Choose Output Type card header: larger tile with light-yellow background and yellow glyph (matches screenshot) */
