@@ -307,7 +307,12 @@
   background-color: rgb(18,24,38);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-  padding: 12px 12px 12px;
+  /*
+    Increase card height by ~50px while keeping layout responsive.
+    We do this by adding vertical padding rather than fixed heights so
+    content can still grow naturally (e.g., file list).
+  */
+  padding: 37px 12px; /* +25px top +25px bottom vs previous 12px */
 }
 
 
@@ -316,8 +321,8 @@
 .udcCardTitleRow{
   display:flex;
   align-items:center;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 14px; /* slightly more breathing room */
   padding: 0;
   background: transparent;
   border: none;
@@ -412,7 +417,7 @@
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
-  padding: 10px;
+  padding: 14px; /* was 10px */
 }
 
 /* Dotted inner dropzone */
@@ -421,7 +426,7 @@
   border-radius: 8px;
   background: rgba(0,0,0,0.10);
   border: 1px dashed rgba(148, 163, 184, 0.45);
-  padding: 18px 14px;
+  padding: 26px 16px; /* was 18px 14px */
   text-align: center;
   cursor: pointer;
   outline: none;
@@ -446,9 +451,9 @@
 
 /* Smaller icon like the screenshot */
 .udcIcon{
-  /* Yellow icon to match screenshot; keep size/layout unchanged */
+  /* Yellow icon to match screenshot */
   color: var(--accent-yellow);
-  margin: 0 auto 8px;
+  margin: 0 auto 10px; /* was 8px */
   display: block;
 }
 
@@ -514,7 +519,7 @@
 .udcForm{
   display:flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px; /* was 10px */
 }
 
 .udcLabel{
@@ -525,12 +530,12 @@
 }
 
 .udcInput{
-  height: 38px;
+  height: 42px; /* was 38px */
   border-radius: var(--radius-input);
   border: 1px solid var(--border-subtler);
   background: var(--input-bg);
   color: var(--text-primary);
-  padding: 10px 12px;
+  padding: 11px 12px; /* was 10px 12px */
   font-size: 12.5px;
   outline: none;
   transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
@@ -564,7 +569,7 @@
   border-radius: 12px;
   border: 1px solid var(--border-subtler);
   background: rgba(255,255,255,0.035);
-  padding: 12px;
+  padding: 14px; /* was 12px */
   cursor: pointer;
   color: var(--text-primary);
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
@@ -609,8 +614,8 @@
 }
 
 .udcTileIcon{
-  width: 30px;
-  height: 30px;
+  width: 32px;  /* was 30px */
+  height: 32px; /* was 30px */
   border-radius: 10px;
   border: 1px solid var(--border-subtler);
   background: rgba(255,255,255,0.03);
@@ -618,7 +623,7 @@
   align-items:center;
   justify-content:center;
   color: rgba(255,255,255,0.65);
-  margin-bottom: 10px;
+  margin-bottom: 12px; /* was 10px */
 }
 
 .udcTile.isSelected .udcTileIcon{
