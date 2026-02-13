@@ -29,7 +29,7 @@ function App() {
       {
         id: "summary",
         title: "Document",
-        description: "Generate a comprehensive summary",
+        description: "Technical docs, reports and summary",
         icon: <DocIcon />,
       },
       {
