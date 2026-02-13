@@ -631,7 +631,20 @@ function OutputTypeTileBadge({ children }) {
 
 function DocumentTileIcon() {
   return (
-    <OutputTypeTileBadge>
+    <span
+      aria-hidden="true"
+      style={{
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        // Light yellow tile per screenshot (lighter than other options)
+        background: "rgba(250, 204, 21, 0.22)",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
+      }}
+    >
       <svg
         width="12"
         height="12"
@@ -640,30 +653,30 @@ function DocumentTileIcon() {
         focusable="false"
         aria-hidden="true"
       >
-        {/* Page/doc outline (no folded corner), plus two text lines — matches screenshot glyph */}
+        {/* Document glyph should be yellow per screenshot */}
         <rect
           x="6.5"
           y="4.5"
           width="11"
           height="15"
           rx="2"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
         />
         <path
           d="M9 11h6"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <path
           d="M9 15h6"
-          stroke="#111111"
+          stroke="#FACC15"
           strokeWidth="2"
           strokeLinecap="round"
         />
       </svg>
-    </OutputTypeTileBadge>
+    </span>
   );
 }
 
