@@ -642,14 +642,15 @@
 }
 
 .udcTileDesc{
-  /* +3px per request for the output-type helper/description texts only:
-     - “Technical docs, reports, summaries”
-     - “Slide decks, pitch materials”
-     - “Live prototype, walkthrough”
-  */
-  font-size: 14.5px;
+  /* Output-type helper/description texts (restore previous size; revert last +3px change) */
+  font-size: 11.5px;
   color: var(--text-muted);
   line-height: 1.35;
+}
+
+/* Only increase the "Live prototype, walkthrough" text (Interactive Demo tile description) by +2px */
+.udcTileDesc.udcTileDesc--livePrototype{
+  font-size: 13.5px;
 }
 
 .udcCtaRow{

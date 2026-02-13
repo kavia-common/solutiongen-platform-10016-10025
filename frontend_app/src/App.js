@@ -214,7 +214,16 @@ function App() {
                   >
                     <div className="udcTileIcon">{opt.icon}</div>
                     <div className="udcTileTitle">{opt.title}</div>
-                    <div className="udcTileDesc">{opt.description}</div>
+                    <div
+                      className={[
+                        "udcTileDesc",
+                        opt.id === "interactive" ? "udcTileDesc--livePrototype" : "",
+                      ]
+                        .join(" ")
+                        .trim()}
+                    >
+                      {opt.description}
+                    </div>
                   </button>
                 );
               })}
