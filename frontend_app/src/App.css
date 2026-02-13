@@ -580,6 +580,10 @@
 .udcTile.isSelected{
   /* Selected outline should match the same darker yellow used by card titles (see .udcCardTitle). */
   border-color: #FACC15;
+  /* Add a subtle outer ring to read clearly as an "outline" like the screenshot. */
+  box-shadow:
+    0 0 0 1px rgba(250, 204, 21, 0.45),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
   background: var(--chip-bg);
 }
 
@@ -589,6 +593,16 @@
 .udcTile.udcTile--interactive{
   border-color: rgba(255,255,255,0.12);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+}
+
+/* Ensure selected state wins over the per-tile baseline outline styles above. */
+.udcTile.udcTile--document.isSelected,
+.udcTile.udcTile--presentation.isSelected,
+.udcTile.udcTile--interactive.isSelected{
+  border-color: #FACC15;
+  box-shadow:
+    0 0 0 1px rgba(250, 204, 21, 0.45),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
 }
 
 .udcTileIcon{
