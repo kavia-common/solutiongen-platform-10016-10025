@@ -197,51 +197,54 @@ function App() {
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-
-              <div className="udcSectionHeader">Choose Output Type</div>
-
-              <div
-                className="udcOutputGrid"
-                role="radiogroup"
-                aria-label="Choose output type"
-              >
-                {outputOptions.map((opt) => {
-                  const selected = opt.id === outputType;
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      className={[
-                        "udcTile",
-                        selected ? "isSelected" : "",
-                      ].join(" ")}
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => setOutputType(opt.id)}
-                    >
-                      <div className="udcTileIcon">{opt.icon}</div>
-                      <div className="udcTileTitle">{opt.title}</div>
-                      <div className="udcTileDesc">{opt.description}</div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="udcCtaRow">
-                <button
-                  type="button"
-                  className="udcCtaButton"
-                  onClick={onContinue}
-                  disabled={!canContinue}
-                >
-                  Continue to Gap Analysis
-                  <span className="udcCtaArrow" aria-hidden="true">
-                    <ArrowRightIcon />
-                  </span>
-                </button>
-              </div>
             </div>
           </Card>
+
+          <Card
+            title="Choose Output Type"
+            icon={<YellowDot />}
+            ariaLabel="Choose Output Type"
+          >
+            <div
+              className="udcOutputGrid"
+              role="radiogroup"
+              aria-label="Choose output type"
+            >
+              {outputOptions.map((opt) => {
+                const selected = opt.id === outputType;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    className={["udcTile", selected ? "isSelected" : ""].join(
+                      " "
+                    )}
+                    role="radio"
+                    aria-checked={selected}
+                    onClick={() => setOutputType(opt.id)}
+                  >
+                    <div className="udcTileIcon">{opt.icon}</div>
+                    <div className="udcTileTitle">{opt.title}</div>
+                    <div className="udcTileDesc">{opt.description}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </Card>
+
+          <div className="udcCtaRow">
+            <button
+              type="button"
+              className="udcCtaButton"
+              onClick={onContinue}
+              disabled={!canContinue}
+            >
+              Continue to Gap Analysis
+              <span className="udcCtaArrow" aria-hidden="true">
+                <ArrowRightIcon />
+              </span>
+            </button>
+          </div>
         </section>
       </main>
     </div>
