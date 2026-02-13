@@ -632,18 +632,35 @@ function OutputTypeTileBadge({ children }) {
 function DocumentTileIcon() {
   return (
     <OutputTypeTileBadge>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
-        <path
-          d="M7.5 3.5h7l3 3V20a1.8 1.8 0 0 1-1.8 1.8H7.5A1.8 1.8 0 0 1 5.7 20V5.3A1.8 1.8 0 0 1 7.5 3.5Z"
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        focusable="false"
+        aria-hidden="true"
+      >
+        {/* Page/doc outline (no folded corner), plus two text lines — matches screenshot glyph */}
+        <rect
+          x="6.5"
+          y="4.5"
+          width="11"
+          height="15"
+          rx="2"
           stroke="#111111"
           strokeWidth="2"
-          strokeLinejoin="round"
         />
         <path
-          d="M14.5 3.5V7a1.8 1.8 0 0 0 1.8 1.8h3.2"
+          d="M9 11h6"
           stroke="#111111"
           strokeWidth="2"
-          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        <path
+          d="M9 15h6"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     </OutputTypeTileBadge>
