@@ -8,8 +8,8 @@ import "./App.css";
 
 // PUBLIC_INTERFACE
 function App() {
-  /** Selected output type (single-select). */
-  const [outputType, setOutputType] = useState("summary");
+  /** Selected output type (single-select). No default selection. */
+  const [outputType, setOutputType] = useState("");
   /** Company name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -30,19 +30,19 @@ function App() {
         id: "summary",
         title: "Document",
         description: "Technical docs, reports and summary",
-        icon: <DocIcon />,
+        icon: <DocumentTileIcon />,
       },
       {
         id: "presentation",
         title: "Presentation",
         description: "Slide decks, pitch materials",
-        icon: <SlidesIcon />,
+        icon: <PresentationTileIcon />,
       },
       {
         id: "interactive",
         title: "Interactive Demo",
         description: "Live prototype, walkthrough",
-        icon: <SparkIcon />,
+        icon: <InteractiveDemoTileIcon />,
       },
     ],
     []
@@ -601,6 +601,101 @@ function SparkIcon() {
         strokeLinejoin="round"
       />
     </svg>
+  );
+}
+
+/**
+ * Output option tile icons: screenshot uses a yellow rounded-square badge
+ * with a dark glyph. These icons are self-contained to ensure the styling
+ * matches regardless of the parent tile selection state.
+ */
+function OutputTypeTileBadge({ children }) {
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        background: "#FACC15",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 0 0 1px rgba(0,0,0,0.18) inset",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function DocumentTileIcon() {
+  return (
+    <OutputTypeTileBadge>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
+        <path
+          d="M7.5 3.5h7l3 3V20a1.8 1.8 0 0 1-1.8 1.8H7.5A1.8 1.8 0 0 1 5.7 20V5.3A1.8 1.8 0 0 1 7.5 3.5Z"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.5 3.5V7a1.8 1.8 0 0 0 1.8 1.8h3.2"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </OutputTypeTileBadge>
+  );
+}
+
+function PresentationTileIcon() {
+  return (
+    <OutputTypeTileBadge>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
+        <path
+          d="M5 6.5h14v8.8H5V6.5Z"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9 20h6"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M12 15.3V20"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+    </OutputTypeTileBadge>
+  );
+}
+
+function InteractiveDemoTileIcon() {
+  return (
+    <OutputTypeTileBadge>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
+        <path
+          d="M10.5 7.8 15.8 12l-5.3 4.2V7.8Z"
+          fill="#111111"
+        />
+        <rect
+          x="5.5"
+          y="5.5"
+          width="13"
+          height="13"
+          rx="2.2"
+          stroke="#111111"
+          strokeWidth="2"
+        />
+      </svg>
+    </OutputTypeTileBadge>
   );
 }
 
