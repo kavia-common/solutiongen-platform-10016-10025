@@ -26,7 +26,7 @@ function App() {
     () => [
       {
         id: "summary",
-        title: "Document Summary",
+        title: "Document",
         description: "Generate a comprehensive summary",
         icon: <DocIcon />,
       },
