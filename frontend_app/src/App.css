@@ -642,15 +642,10 @@
 }
 
 .udcTileDesc{
-  /* Output-type helper/description texts (restore previous size; revert last +3px change) */
-  font-size: 11.5px;
+  /* Output-type helper/description texts: increase ONLY these by +2px per request */
+  font-size: 13.5px; /* was 11.5px */
   color: var(--text-muted);
   line-height: 1.35;
-}
-
-/* Only increase the "Live prototype, walkthrough" text (Interactive Demo tile description) by +2px */
-.udcTileDesc.udcTileDesc--livePrototype{
-  font-size: 13.5px;
 }
 
 .udcCtaRow{
