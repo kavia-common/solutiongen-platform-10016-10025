@@ -578,7 +578,8 @@
 }
 
 .udcTile.isSelected{
-  border-color: rgba(245,197,66,0.45);
+  /* Selected outline should be a darker yellow per screenshot, without changing other states */
+  border-color: #F0C419;
   background: var(--chip-bg);
 }
 
