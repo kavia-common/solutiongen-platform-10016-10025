@@ -414,7 +414,7 @@ function UploadCardHeaderYellowIcon() {
 
 /**
  * Yellow rounded-square icon used in the "Choose Output Type" card header.
- * Matches the screenshot: small yellow tile with a dark "panel/window" glyph.
+ * Matches the screenshot: larger light-yellow tile with a yellow "list/bullets" glyph.
  */
 function ChooseOutputTypeHeaderYellowIcon() {
   return (
@@ -425,21 +425,17 @@ function ChooseOutputTypeHeaderYellowIcon() {
         fill="none"
         focusable="false"
       >
-        {/* Outer rounded rectangle (window) */}
-        <rect
-          x="6.5"
-          y="7"
-          width="11"
-          height="11"
-          rx="2"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-        {/* Top bar line */}
+        {/* Bullet list glyph */}
         <path
-          d="M6.8 10h10.4"
+          d="M10 8h10M10 12h10M10 16h10"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M6.5 8h.01M6.5 12h.01M6.5 16h.01"
+          stroke="currentColor"
+          strokeWidth="4"
           strokeLinecap="round"
         />
       </svg>

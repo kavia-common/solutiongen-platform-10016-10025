@@ -363,24 +363,24 @@
   color: #111111; /* dark glyph on yellow */
 }
 
-/* Choose Output Type card header: yellow tile icon (matches screenshot) */
+/* Choose Output Type card header: larger tile with light-yellow background and yellow glyph (matches screenshot) */
 .udcChooseOutputHeaderYellowIcon{
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: #FACC15;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(250, 204, 21, 0.18); /* light yellow tile */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.18) inset;
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.20) inset;
   flex-shrink: 0;
 }
 
 .udcChooseOutputHeaderYellowIconGlyph{
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   display: block;
-  color: #111111; /* dark glyph on yellow */
+  color: #FACC15; /* yellow glyph */
 }
 
 /* Configuration card header icon: larger tile with light-yellow background and yellow glyph (per screenshot) */
