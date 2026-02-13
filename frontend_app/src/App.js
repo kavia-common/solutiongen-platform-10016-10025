@@ -185,7 +185,7 @@ function App() {
 
           <Card
             title="Choose Output Type"
-            icon={<YellowDot />}
+            icon={<ChooseOutputTypeHeaderYellowIcon />}
             ariaLabel="Choose Output Type"
           >
             <div
@@ -376,6 +376,41 @@ function UploadCardHeaderYellowIcon() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * Yellow rounded-square icon used in the "Choose Output Type" card header.
+ * Matches the screenshot: small yellow tile with a dark "panel/window" glyph.
+ */
+function ChooseOutputTypeHeaderYellowIcon() {
+  return (
+    <span className="udcChooseOutputHeaderYellowIcon" aria-hidden="true">
+      <svg
+        className="udcChooseOutputHeaderYellowIconGlyph"
+        viewBox="0 0 24 24"
+        fill="none"
+        focusable="false"
+      >
+        {/* Outer rounded rectangle (window) */}
+        <rect
+          x="6.5"
+          y="7"
+          width="11"
+          height="11"
+          rx="2"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        {/* Top bar line */}
+        <path
+          d="M6.8 10h10.4"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     </span>
