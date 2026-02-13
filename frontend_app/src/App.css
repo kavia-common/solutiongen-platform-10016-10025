@@ -310,12 +310,7 @@
   padding: 12px 12px 12px;
 }
 
-/* Increase height of specific cards by ~100px without changing layout/grid behavior */
-.udcCard--taller100{
-  min-height: calc(100% + 100px);
-  min-height: 100px;
-  padding-bottom: calc(12px + 100px);
-}
+
 
 /* Header row: small dot + yellow title at top-left */
 .udcCardTitleRow{

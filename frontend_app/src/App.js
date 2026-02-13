@@ -125,7 +125,6 @@ function App() {
             title="Upload Project Documents"
             icon={<UploadCardHeaderYellowIcon />}
             ariaLabel="Upload Project Documents"
-            className="udcCard--taller100"
           >
             <div className="udcUploadInset">
               <div
@@ -188,7 +187,6 @@ function App() {
             title="Choose Output Type"
             icon={<ChooseOutputTypeHeaderYellowIcon />}
             ariaLabel="Choose Output Type"
-            className="udcCard--taller100"
           >
             <div
               className="udcOutputGrid"
@@ -227,7 +225,6 @@ function App() {
             title="Configuration"
             icon={<ConfigurationHeaderYellowIcon />}
             ariaLabel="Configuration"
-            className="udcCard--taller100"
           >
             <div className="udcForm">
               <label className="udcLabel" htmlFor="companyName">
