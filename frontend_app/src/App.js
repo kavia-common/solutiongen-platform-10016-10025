@@ -670,21 +670,44 @@ function DocumentTileIcon() {
 function PresentationTileIcon() {
   return (
     <OutputTypeTileBadge>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false">
-        <path
-          d="M5 6.5h14v8.8H5V6.5Z"
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        focusable="false"
+        aria-hidden="true"
+      >
+        {/* Presentation board glyph: screen + stand + base, with two content lines (matches screenshot style). */}
+        <rect
+          x="6.5"
+          y="5.5"
+          width="11"
+          height="9"
+          rx="1.6"
           stroke="#111111"
           strokeWidth="2"
-          strokeLinejoin="round"
         />
         <path
-          d="M9 20h6"
+          d="M10 9h4"
           stroke="#111111"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <path
-          d="M12 15.3V20"
+          d="M10 11.5h5"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M12 14.5v3.3"
+          stroke="#111111"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M9.5 19h5"
           stroke="#111111"
           strokeWidth="2"
           strokeLinecap="round"
