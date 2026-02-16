@@ -14,7 +14,7 @@ function App() {
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
   const [tagline, setTagline] = useState("");
-  /** Uploaded file list (PDF). */
+  /** Uploaded file list (documents). */
   const [files, setFiles] = useState([]);
 
   const [isDragOver, setIsDragOver] = useState(false);
@@ -56,12 +56,24 @@ function App() {
   // PUBLIC_INTERFACE
   function onFilesSelected(fileList) {
     const incoming = Array.from(fileList || []);
-    const pdfsOnly = incoming.filter(
-      (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
-    );
 
-    // Keep it simple: append PDFs, ignore non-PDFs.
-    setFiles((prev) => [...prev, ...pdfsOnly]);
+    // Allow the types requested for the dropzone, while keeping existing PDF support.
+    // Note: MIME types can be inconsistent across browsers/OSes for Office docs, so we
+    // primarily validate by extension as a reliable fallback.
+    const allowedExtensions = [".pdf", ".txt", ".doc", ".ppt", ".pptx"];
+
+    const allowed = incoming.filter((f) => {
+      const name = (f.name || "").toLowerCase();
+      const mime = (f.type || "").toLowerCase();
+
+      const matchesExt = allowedExtensions.some((ext) => name.endsWith(ext));
+      const matchesPdfMime = mime === "application/pdf";
+
+      return matchesExt || matchesPdfMime;
+    });
+
+    // Keep it simple: append allowed docs, ignore everything else.
+    setFiles((prev) => [...prev, ...allowed]);
   }
 
   // PUBLIC_INTERFACE
@@ -158,12 +170,14 @@ function App() {
               >
                 <UploadIcon />
                 <div className="udcDropzonePrimary">Drop files here or click to browse</div>
-                <div className="udcDropzoneHelper">PDF: Word, Text, Notion, PowerPoint</div>
+                <div className="udcDropzoneHelper">
+                  Accepted: .pdf, .txt, .doc, .ppt, .pptx
+                </div>
 
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="application/pdf,.pdf"
+                  accept="application/pdf,.pdf,text/plain,.txt,.doc,.ppt,.pptx"
                   multiple
                   className="udcFileInput"
                   onChange={(e) => onFilesSelected(e.target.files)}
