@@ -553,6 +553,65 @@
   background: var(--input-bg-2);
 }
 
+/* Two-up field row for credentials in Configuration */
+.udcFieldRow2Col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.udcField{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Input with an inline icon button on the right */
+.udcInputWithIcon{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.udcInput--withIcon{
+  padding-right: 44px; /* room for the icon button */
+}
+
+.udcIconBtn{
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtler);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.70);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.udcIconBtn:hover{
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.85);
+}
+
+.udcIconBtn:focus-visible{
+  outline: 2px solid rgba(245,197,66,0.55);
+  outline-offset: 2px;
+}
+
+.udcHelpText{
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: -2px; /* pull slightly closer to input like other compact text */
+}
+
 .udcSectionHeader{
   margin-top: 4px;
   font-size: 12px;
@@ -709,4 +768,5 @@
   .udcMain{ width: calc(100% - 24px); }
   .udcOutputGrid{ grid-template-columns: 1fr; }
   .udcCtaButton{ width: 100%; min-width: 0; }
+  .udcFieldRow2Col{ grid-template-columns: 1fr; }
 }

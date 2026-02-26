@@ -10,6 +10,15 @@ import "./App.css";
 function App() {
   /** Selected output types (multi-select). No default selection. */
   const [outputTypes, setOutputTypes] = useState([]);
+  /** Access key id input (credential). */
+  const [accessKeyId, setAccessKeyId] = useState("");
+  /** Secret access key input (credential). */
+  const [secretAccessKey, setSecretAccessKey] = useState("");
+  /** Whether the Access Key ID is visible (unmasked). */
+  const [showAccessKeyId, setShowAccessKeyId] = useState(false);
+  /** Whether the Secret Access Key is visible (unmasked). */
+  const [showSecretAccessKey, setShowSecretAccessKey] = useState(false);
+
   /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -255,6 +264,72 @@ function App() {
             ariaLabel="Configuration"
           >
             <div className="udcForm">
+              <div className="udcFieldRow2Col">
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="accessKeyId">
+                    Access Key ID
+                  </label>
+                  <div className="udcInputWithIcon">
+                    <input
+                      id="accessKeyId"
+                      className="udcInput udcInput--withIcon"
+                      type={showAccessKeyId ? "text" : "password"}
+                      placeholder="Enter access key id"
+                      value={accessKeyId}
+                      onChange={(e) => setAccessKeyId(e.target.value)}
+                      autoComplete="off"
+                      spellCheck="false"
+                      aria-describedby="accessKeyIdHelp"
+                    />
+                    <button
+                      type="button"
+                      className="udcIconBtn"
+                      aria-label={showAccessKeyId ? "Hide Access Key ID" : "Show Access Key ID"}
+                      aria-pressed={showAccessKeyId}
+                      onClick={() => setShowAccessKeyId((v) => !v)}
+                    >
+                      <EyeIcon visible={showAccessKeyId} />
+                    </button>
+                  </div>
+                  <div id="accessKeyIdHelp" className="udcHelpText">
+                    Stored locally for now (no backend wiring yet).
+                  </div>
+                </div>
+
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="secretAccessKey">
+                    Secret Access Key
+                  </label>
+                  <div className="udcInputWithIcon">
+                    <input
+                      id="secretAccessKey"
+                      className="udcInput udcInput--withIcon"
+                      type={showSecretAccessKey ? "text" : "password"}
+                      placeholder="Enter secret access key"
+                      value={secretAccessKey}
+                      onChange={(e) => setSecretAccessKey(e.target.value)}
+                      autoComplete="off"
+                      spellCheck="false"
+                      aria-describedby="secretAccessKeyHelp"
+                    />
+                    <button
+                      type="button"
+                      className="udcIconBtn"
+                      aria-label={
+                        showSecretAccessKey ? "Hide Secret Access Key" : "Show Secret Access Key"
+                      }
+                      aria-pressed={showSecretAccessKey}
+                      onClick={() => setShowSecretAccessKey((v) => !v)}
+                    >
+                      <EyeIcon visible={showSecretAccessKey} />
+                    </button>
+                  </div>
+                  <div id="secretAccessKeyHelp" className="udcHelpText">
+                    Keep this private. Toggle visibility with the eye icon.
+                  </div>
+                </div>
+              </div>
+
               <label className="udcLabel" htmlFor="companyName">
                 Client Name
               </label>
@@ -540,6 +615,32 @@ function ArrowRightIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+}
+
+/**
+ * Eye icon used for credential visibility toggles.
+ * When visible=false, an eye with a strike-through is shown.
+ */
+function EyeIcon({ visible }) {
+  const common = {
+    stroke: "currentColor",
+    strokeWidth: 1.9,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    fill: "none",
+  };
+
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        {...common}
+        d="M2.5 12s3.6-7 9.5-7 9.5 7 9.5 7-3.6 7-9.5 7-9.5-7-9.5-7Z"
+        opacity="0.95"
+      />
+      <path {...common} d="M12 15.3a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6Z" />
+      {!visible ? <path {...common} d="M5 19 19 5" /> : null}
     </svg>
   );
 }
