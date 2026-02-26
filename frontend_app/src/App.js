@@ -10,7 +10,7 @@ import "./App.css";
 function App() {
   /** Selected output types (multi-select). No default selection. */
   const [outputTypes, setOutputTypes] = useState([]);
-  /** Company name input. */
+  /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
   const [tagline, setTagline] = useState("");
@@ -122,7 +122,7 @@ function App() {
 
     // eslint-disable-next-line no-alert
     alert(
-      `Continue\n\nCompany: ${companyName}\nOutput: ${outputTypes.join(
+      `Continue\n\nClient: ${companyName}\nOutput: ${outputTypes.join(
         ", "
       )}\nFiles: ${files.length}`
     );
@@ -256,12 +256,12 @@ function App() {
           >
             <div className="udcForm">
               <label className="udcLabel" htmlFor="companyName">
-                Company Name
+                Client Name
               </label>
               <input
                 id="companyName"
                 className="udcInput"
-                placeholder="Enter company name"
+                placeholder="Enter client name"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
               />
