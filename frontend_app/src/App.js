@@ -19,6 +19,14 @@ function App() {
   /** Whether the Secret Access Key is visible (unmasked). */
   const [showSecretAccessKey, setShowSecretAccessKey] = useState(false);
 
+  /**
+   * Simple validation state for required credentials.
+   * We only show errors after the user attempts to continue, or after a field is blurred.
+   */
+  const [showCredentialValidation, setShowCredentialValidation] = useState(false);
+  const [accessKeyIdTouched, setAccessKeyIdTouched] = useState(false);
+  const [secretAccessKeyTouched, setSecretAccessKeyTouched] = useState(false);
+
   /** User organization selection (radio). */
   const [userOrganization, setUserOrganization] = useState("");
   /** Business unit selection, only applicable when Tata Elxsi is selected. */
@@ -41,9 +49,18 @@ function App() {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
+  const credentialsValid = useMemo(() => {
+    return accessKeyId.trim().length > 0 && secretAccessKey.trim().length > 0;
+  }, [accessKeyId, secretAccessKey]);
+
   const canContinue = useMemo(() => {
-    return files.length > 0 && companyName.trim().length > 0 && outputTypes.length > 0;
-  }, [files.length, companyName, outputTypes.length]);
+    return (
+      files.length > 0 &&
+      companyName.trim().length > 0 &&
+      outputTypes.length > 0 &&
+      credentialsValid
+    );
+  }, [files.length, companyName, outputTypes.length, credentialsValid]);
 
   const outputOptions = useMemo(
     () => [
@@ -137,17 +154,24 @@ function App() {
 
   // PUBLIC_INTERFACE
   function onContinue() {
+    // Show required validation feedback for Access Key ID & Secret Access Key.
+    setShowCredentialValidation(true);
+
     // No routing in template; keep as a stub action.
     // In later steps, wire to next screen / backend.
     if (!canContinue) return;
 
     // eslint-disable-next-line no-alert
     alert(
-      `Continue\n\nClient: ${companyName}\nOutput: ${outputTypes.join(
-        ", "
-      )}\nFiles: ${files.length}`
+      `Continue\n\nClient: ${companyName}\nOutput: ${outputTypes.join(", ")}\nFiles: ${files.length}`
     );
   }
+
+  const accessKeyIdMissing =
+    (showCredentialValidation || accessKeyIdTouched) && accessKeyId.trim().length === 0;
+
+  const secretAccessKeyMissing =
+    (showCredentialValidation || secretAccessKeyTouched) && secretAccessKey.trim().length === 0;
 
   return (
     <div className="udcPage">
@@ -164,8 +188,7 @@ function App() {
         <section className="udcTitleBlock" aria-label="Page title">
           <h1 className="udcTitle">Upload Documents &amp; Configure</h1>
           <p className="udcSubtitle">
-            Start by uploading your own documents and configuring your Demo on
-            Demand experience.
+            Start by uploading your own documents and configuring your Demo on Demand experience.
           </p>
         </section>
 
@@ -191,9 +214,7 @@ function App() {
               >
                 <UploadIcon />
                 <div className="udcDropzonePrimary">Drop files here or click to browse</div>
-                <div className="udcDropzoneHelper">
-                  Accepted: .pdf, .txt, .doc, .ppt, .pptx
-                </div>
+                <div className="udcDropzoneHelper">Accepted: .pdf, .txt, .doc, .ppt, .pptx</div>
 
                 <input
                   ref={fileInputRef}
@@ -270,27 +291,33 @@ function App() {
             </div>
           </Card>
 
-          <Card
-            title="Configuration"
-            icon={<ConfigurationHeaderYellowIcon />}
-            ariaLabel="Configuration"
-          >
+          <Card title="Configuration" icon={<ConfigurationHeaderYellowIcon />} ariaLabel="Configuration">
             <div className="udcForm">
               <div className="udcFieldRow2Col">
                 <div className="udcField">
                   <label className="udcLabel" htmlFor="accessKeyId">
-                    Access Key ID
+                    Access Key ID <span className="udcRequiredMark">*</span>
                   </label>
                   <div className="udcInputWithIcon">
                     <input
                       id="accessKeyId"
-                      className="udcInput udcInput--withIcon"
+                      className={[
+                        "udcInput",
+                        "udcInput--withIcon",
+                        accessKeyIdMissing ? "udcInput--error" : "",
+                      ]
+                        .join(" ")
+                        .trim()}
                       type={showAccessKeyId ? "text" : "password"}
                       placeholder="Enter access key id"
                       value={accessKeyId}
                       onChange={(e) => setAccessKeyId(e.target.value)}
+                      onBlur={() => setAccessKeyIdTouched(true)}
                       autoComplete="off"
                       spellCheck="false"
+                      required
+                      aria-invalid={accessKeyIdMissing}
+                      aria-describedby="accessKeyIdError"
                     />
                     <button
                       type="button"
@@ -302,35 +329,59 @@ function App() {
                       <EyeIcon visible={showAccessKeyId} />
                     </button>
                   </div>
+
+                  {accessKeyIdMissing ? (
+                    <div className="udcFieldError" id="accessKeyIdError" role="alert">
+                      Access Key ID is required.
+                    </div>
+                  ) : (
+                    <div className="udcFieldErrorSpacer" aria-hidden="true" />
+                  )}
                 </div>
 
                 <div className="udcField">
                   <label className="udcLabel" htmlFor="secretAccessKey">
-                    Secret Access Key
+                    Secret Access Key <span className="udcRequiredMark">*</span>
                   </label>
                   <div className="udcInputWithIcon">
                     <input
                       id="secretAccessKey"
-                      className="udcInput udcInput--withIcon"
+                      className={[
+                        "udcInput",
+                        "udcInput--withIcon",
+                        secretAccessKeyMissing ? "udcInput--error" : "",
+                      ]
+                        .join(" ")
+                        .trim()}
                       type={showSecretAccessKey ? "text" : "password"}
                       placeholder="Enter secret access key"
                       value={secretAccessKey}
                       onChange={(e) => setSecretAccessKey(e.target.value)}
+                      onBlur={() => setSecretAccessKeyTouched(true)}
                       autoComplete="off"
                       spellCheck="false"
+                      required
+                      aria-invalid={secretAccessKeyMissing}
+                      aria-describedby="secretAccessKeyError"
                     />
                     <button
                       type="button"
                       className="udcIconBtn"
-                      aria-label={
-                        showSecretAccessKey ? "Hide Secret Access Key" : "Show Secret Access Key"
-                      }
+                      aria-label={showSecretAccessKey ? "Hide Secret Access Key" : "Show Secret Access Key"}
                       aria-pressed={showSecretAccessKey}
                       onClick={() => setShowSecretAccessKey((v) => !v)}
                     >
                       <EyeIcon visible={showSecretAccessKey} />
                     </button>
                   </div>
+
+                  {secretAccessKeyMissing ? (
+                    <div className="udcFieldError" id="secretAccessKeyError" role="alert">
+                      Secret Access Key is required.
+                    </div>
+                  ) : (
+                    <div className="udcFieldErrorSpacer" aria-hidden="true" />
+                  )}
                 </div>
               </div>
 
@@ -496,12 +547,7 @@ function App() {
           </Card>
 
           <div className="udcCtaRow">
-            <button
-              type="button"
-              className="udcCtaButton"
-              onClick={onContinue}
-              disabled={!canContinue}
-            >
+            <button type="button" className="udcCtaButton" onClick={onContinue} disabled={!canContinue}>
               Continue to Gap Analysis
               <span className="udcCtaArrow" aria-hidden="true">
                 <ArrowRightIcon />
@@ -525,9 +571,7 @@ function HeaderBar() {
           </div>
           <div className="udcHeaderText">
             <div className="udcHeaderTitle">Demo on Demand</div>
-            <div className="udcHeaderSubtitle">
-              Documents, decks, and demos — powered by AI
-            </div>
+            <div className="udcHeaderSubtitle">Documents, decks, and demos — powered by AI</div>
           </div>
         </div>
         {/* Navigation tabs and Preview button intentionally removed per spec */}
@@ -578,18 +622,9 @@ function YellowDot() {
 function ConfigurationHeaderYellowIcon() {
   return (
     <span className="udcConfigurationHeaderIcon" aria-hidden="true">
-      <svg
-        className="udcConfigurationHeaderIconGlyph"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-      >
+      <svg className="udcConfigurationHeaderIconGlyph" viewBox="0 0 24 24" fill="none" focusable="false">
         {/* Simple gear-like glyph */}
-        <path
-          d="M12 9.3a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Z"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
+        <path d="M12 9.3a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Z" stroke="currentColor" strokeWidth="2" />
         <path
           d="M12 3.5v2.1M12 18.4v2.1M3.5 12h2.1M18.4 12h2.1M5.9 5.9l1.5 1.5M16.6 16.6l1.5 1.5M18.1 5.9l-1.5 1.5M7.4 16.6l-1.5 1.5"
           stroke="currentColor"
@@ -633,12 +668,7 @@ function UploadCardHeaderIcon() {
 function UploadCardHeaderYellowIcon() {
   return (
     <span className="udcUploadHeaderYellowIcon" aria-hidden="true">
-      <svg
-        className="udcUploadHeaderYellowIconGlyph"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-      >
+      <svg className="udcUploadHeaderYellowIconGlyph" viewBox="0 0 24 24" fill="none" focusable="false">
         {/* Bigger arrow glyph (bold, single-icon) to match the screenshot */}
         <path d="M12 19V7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
         <path
@@ -660,25 +690,10 @@ function UploadCardHeaderYellowIcon() {
 function ChooseOutputTypeHeaderYellowIcon() {
   return (
     <span className="udcChooseOutputHeaderYellowIcon" aria-hidden="true">
-      <svg
-        className="udcChooseOutputHeaderYellowIconGlyph"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-      >
+      <svg className="udcChooseOutputHeaderYellowIconGlyph" viewBox="0 0 24 24" fill="none" focusable="false">
         {/* Bullet list glyph */}
-        <path
-          d="M10 8h10M10 12h10M10 16h10"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M6.5 8h.01M6.5 12h.01M6.5 16h.01"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
+        <path d="M10 8h10M10 12h10M10 16h10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M6.5 8h.01M6.5 12h.01M6.5 16h.01" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
       </svg>
     </span>
   );
@@ -693,10 +708,7 @@ function Stepper({ steps, currentStep = 0, ariaLabel }) {
           const stepNumber = idx + 1;
 
           return (
-            <li
-              key={`${label}-${idx}`}
-              className={["udcStep", isActive ? "isActive" : ""].join(" ").trim()}
-            >
+            <li key={`${label}-${idx}`} className={["udcStep", isActive ? "isActive" : ""].join(" ").trim()}>
               <span className="udcStepCircle">{stepNumber}</span>
               <span className="udcStepLabel">{label}</span>
             </li>
@@ -710,22 +722,8 @@ function Stepper({ steps, currentStep = 0, ariaLabel }) {
 /* Simple inline icons (SVG). */
 function UploadIcon() {
   return (
-    <svg
-      className="udcIcon"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="8.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        opacity="0.95"
-      />
+    <svg className="udcIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.6" opacity="0.95" />
       <path d="M12 14V9" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <path
         d="M9.75 11.25 12 9l2.25 2.25"
@@ -740,14 +738,7 @@ function UploadIcon() {
 
 function ArrowRightIcon() {
   return (
-    <svg
-      className="udcArrowIcon"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg className="udcArrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 12h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path
         d="M13 6l6 6-6 6"
@@ -795,18 +786,8 @@ function DocIcon() {
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
-      <path
-        d="M14 3v4a2 2 0 0 0 2 2h4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 13h8M8 17h6"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+      <path d="M14 3v4a2 2 0 0 0 2 2h4" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M8 13h8M8 17h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -882,14 +863,7 @@ function DocumentTileIcon() {
         boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
       }}
     >
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-        aria-hidden="true"
-      >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
         {/* Document glyph should be yellow per screenshot */}
         <rect x="6.5" y="4.5" width="11" height="15" rx="2" stroke="#FACC15" strokeWidth="2" />
         <path d="M9 11h6" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" />
@@ -915,14 +889,7 @@ function PresentationTileIcon() {
         boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
       }}
     >
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-        aria-hidden="true"
-      >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
         {/* Use yellow glyph (as in screenshot) */}
         <rect x="5.5" y="6.5" width="13" height="9" rx="1.8" stroke="#FACC15" strokeWidth="2" />
         {/* Stand */}
@@ -957,14 +924,7 @@ function InteractiveDemoTileIcon() {
         boxShadow: "0 0 0 1px rgba(250, 204, 21, 0.20) inset",
       }}
     >
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        focusable="false"
-        aria-hidden="true"
-      >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
         {/* Yellow glyph (play-in-a-tile) to match screenshot */}
         <path d="M10.5 7.8 15.8 12l-5.3 4.2V7.8Z" fill="#FACC15" />
         <rect x="5.5" y="5.5" width="13" height="13" rx="2.2" stroke="#FACC15" strokeWidth="2" />
@@ -1010,12 +970,7 @@ function ChatIcon() {
         strokeWidth="1.7"
         strokeLinejoin="round"
       />
-      <path
-        d="M8 9h8M8 12h6"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
+      <path d="M8 9h8M8 12h6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
     </svg>
   );
 }
@@ -1023,30 +978,10 @@ function ChatIcon() {
 function ShareIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M16 8a3 3 0 1 0-2.9-3.7"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M6 14a3 3 0 1 0 2.9 3.7"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M8.6 15.3l6.8-3.6"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M8.6 8.7l6.8 3.6"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
+      <path d="M16 8a3 3 0 1 0-2.9-3.7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M6 14a3 3 0 1 0 2.9 3.7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M8.6 15.3l6.8-3.6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M8.6 8.7l6.8 3.6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <circle cx="18" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7" />
       <circle cx="6" cy="18" r="2.2" stroke="currentColor" strokeWidth="1.7" />
     </svg>

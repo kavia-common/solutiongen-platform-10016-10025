@@ -757,6 +757,29 @@ select.udcInput:valid{
   margin-top: -2px; /* pull slightly closer to input like other compact text */
 }
 
+/* Required + validation feedback (keep styling consistent with existing theme) */
+.udcRequiredMark{
+  color: #FACC15;
+  font-weight: 800;
+}
+
+.udcInput--error{
+  border-color: rgba(239, 68, 68, 0.70); /* matches --error hue from style guide */
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
+.udcFieldError{
+  font-size: 12px;
+  line-height: 1.2;
+  color: rgba(239, 68, 68, 0.92);
+  margin-top: 2px;
+}
+
+/* Keeps row height stable when one field has error and the other doesn't */
+.udcFieldErrorSpacer{
+  height: 16px;
+}
+
 .udcSectionHeader{
   margin-top: 4px;
   font-size: 12px;
