@@ -24,6 +24,11 @@ function App() {
   /** Business unit selection, only applicable when Tata Elxsi is selected. */
   const [businessUnit, setBusinessUnit] = useState("");
 
+  /** User role selection (dropdown). */
+  const [userRole, setUserRole] = useState("");
+  /** Purpose selection (dropdown). */
+  const [purpose, setPurpose] = useState("");
+
   /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -391,6 +396,49 @@ function App() {
                   ) : null}
                 </div>
               </fieldset>
+
+              <div className="udcFieldRow2Col">
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="userRole">
+                    User Role
+                  </label>
+                  <select
+                    id="userRole"
+                    className="udcInput"
+                    value={userRole}
+                    onChange={(e) => setUserRole(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Select user role
+                    </option>
+                    <option value="Delivery Manager">Delivery Manager</option>
+                    <option value="Project Manager">Project Manager</option>
+                    <option value="PreSales">PreSales</option>
+                    <option value="Director">Director</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="purpose">
+                    Purpose
+                  </label>
+                  <select
+                    id="purpose"
+                    className="udcInput"
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Select purpose
+                    </option>
+                    <option value="Sales Pitch">Sales Pitch</option>
+                    <option value="Solution Proposal">Solution Proposal</option>
+                    <option value="Internal Review">Internal Review</option>
+                    <option value="Client Demo">Client Demo</option>
+                  </select>
+                </div>
+              </div>
 
               <label className="udcLabel" htmlFor="companyName">
                 Client Name
