@@ -69,12 +69,15 @@ export default function PresentationFormatOverlay({
     return Number.isInteger(n) && n >= 0 && n <= 25;
   }, [slideCount]);
 
-  // Slide count stepper is only enabled when the user provides a custom "Other" format.
-  // Keep existing clamping/validation behavior once enabled.
+  // Slide count stepper should enable whenever the user types a non-empty (non-whitespace)
+  // value into the "Other" field.
+  //
+  // Note: The UI only renders the "Other" field for the End-to-End option, but the enablement
+  // condition itself must be based on the Other text content (per requirement).
   const isOtherTextPresent = (otherText || "").trim().length > 0;
-  const slideCountEnabled = isEndToEndSelected && isOtherTextPresent;
+  const slideCountEnabled = isOtherTextPresent;
 
-  const canContinue = Boolean(selectedFormatId) && (!isEndToEndSelected || slideCountIsValid);
+  const canContinue = Boolean(selectedFormatId) && (!isOtherTextPresent || slideCountIsValid);
 
   return (
     <div
