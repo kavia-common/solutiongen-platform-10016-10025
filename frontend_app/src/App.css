@@ -608,6 +608,10 @@
   width: 100%;
   min-height: 42px; /* match .udcInput height */
   justify-content: flex-start;
+
+  /* Requested alignment tweak: move Tata Elxsi/External slightly up without affecting layout flow */
+  position: relative;
+  top: -3px;
 }
 
 /* Business Unit uses label + select stacked, consistent with other fields */
@@ -888,6 +892,11 @@
 
   /* When stacked, remove the alignment offset so spacing looks natural. */
   .udcFieldset .udcRadioOption{
+    top: 0;
+  }
+
+  /* When stacked, also remove the org-radio-specific offset. */
+  .udcOrgRadioOption{
     top: 0;
   }
 }
