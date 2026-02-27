@@ -36,6 +36,20 @@ export default function PresentationFormatOverlay({
     return titleOverrides[format.title] || format.title;
   }
 
+  // Taglines/subtitles shown under each option title in the overlay.
+  // Mapped by the *displayed* title (after overrides).
+  const optionTaglines = {
+    "Project Solution Framework": "From business problem to structured solution approach",
+    "Architecture & Design": "System architecture, components, and technical design overview",
+    "Capability / Demo": "What we can do and how it works in practice",
+    "End-to-End": "Full lifecycle view from engagement to delivery",
+  };
+
+  function getFormatTagline(format) {
+    const title = getFormatTitle(format);
+    return optionTaglines[title] || format.description;
+  }
+
   const selectedFormatTitle = useMemo(() => {
     const found = formats.find((f) => f.id === selectedFormatId);
     return found ? getFormatTitle(found) : null;
@@ -118,7 +132,7 @@ export default function PresentationFormatOverlay({
                 >
                   <div className="pfOptionText">
                     <div className="pfOptionTitle">{getFormatTitle(f)}</div>
-                    <div className="pfOptionDesc">{f.description}</div>
+                    <div className="pfOptionDesc">{getFormatTagline(f)}</div>
                   </div>
 
                   <span className="pfOptionAction" aria-hidden="true">
