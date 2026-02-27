@@ -637,6 +637,12 @@
   min-width: 0;
 }
 
+/* In this specific inline row, prevent the label's global margin-top from
+   pushing the dropdown down relative to the radio controls. */
+.udcOrgBusinessUnit .udcLabel{
+  margin-top: 0;
+}
+
 /* Radio group container: keep Tata Elxsi + External inline on the same row when possible,
    but allow wrapping on narrow widths. */
 .udcRadioGroup{
@@ -662,20 +668,14 @@
   color: var(--text-primary);
 }
 
-/* Ensure the radio control visually aligns with other form inputs (e.g., select)
-   when placed side-by-side in .udcFieldRow2Col. */
+/* Ensure radio options look like inputs by default.
+   IMPORTANT: Do NOT apply vertical offsets globally — they break the
+   "User Organization" row alignment requirement. Any special alignment
+   should be handled by the specific layout container (e.g., .udcOrgRow). */
 .udcFieldset .udcRadioOption{
   width: 100%;
   min-height: 42px; /* match .udcInput height */
-  /*
-    Vertical alignment tweak:
-    The right column has a label above the <select>, while the left column contains
-    only the radio "input-like" control. We offset the radio slightly downward to
-    align with the dropdown field, but keep it subtle so it doesn't appear too low.
-    Use a relative offset so layout stays responsive (no fixed heights).
-  */
-  position: relative;
-  top: 16px;
+  position: static;
 }
 
 .udcRadioOption input{
