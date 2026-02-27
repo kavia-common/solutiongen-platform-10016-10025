@@ -599,6 +599,12 @@
   display: grid;
 
   /*
+    Add a slight vertical gap between the "User Organization" legend and this row
+    WITHOUT affecting same-line alignment of the controls.
+  */
+  margin-top: 6px;
+
+  /*
     Keep Tata Elxsi + External inline, and place Business Unit in the same row.
     Key behavior for this task:
     - Align to the bottom so the Business Unit <select> baseline lines up with the radio controls.
