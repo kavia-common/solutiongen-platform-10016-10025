@@ -560,6 +560,14 @@
   gap: 12px;
 }
 
+/* Configuration: Client Type + Client Name + Tagline in one responsive row */
+.udcConfigClientRow{
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(240px, 1fr) minmax(240px, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
 .udcField{
   display: flex;
   flex-direction: column;
@@ -870,6 +878,7 @@
   .udcOutputGrid{ grid-template-columns: 1fr; }
   .udcCtaButton{ width: 100%; min-width: 0; }
   .udcFieldRow2Col{ grid-template-columns: 1fr; }
+  .udcConfigClientRow{ grid-template-columns: 1fr; }
 
   .udcOrgRow{
     grid-template-columns: 1fr;

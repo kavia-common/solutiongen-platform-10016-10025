@@ -29,6 +29,8 @@ function App() {
   /** Purpose selection (dropdown). */
   const [purpose, setPurpose] = useState("");
 
+  /** Client type selection (radio): new vs existing. */
+  const [clientType, setClientType] = useState("");
   /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -440,27 +442,81 @@ function App() {
                 </div>
               </div>
 
-              <label className="udcLabel" htmlFor="companyName">
-                Client Name
-              </label>
-              <input
-                id="companyName"
-                className="udcInput"
-                placeholder="Enter client name"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
+              {/* Client Type should appear below the User Role/Purpose row */}
+              <fieldset className="udcField udcFieldset" aria-label="Client type">
+                <legend className="udcLabel">Client Type</legend>
 
-              <label className="udcLabel" htmlFor="tagline">
-                Tagline (optional)
-              </label>
-              <input
-                id="tagline"
-                className="udcInput"
-                placeholder="Your company tagline"
-                value={tagline}
-                onChange={(e) => setTagline(e.target.value)}
-              />
+                <div className="udcRadioGroup" role="radiogroup" aria-label="Client Type">
+                  <label className="udcRadioOption">
+                    <input
+                      type="radio"
+                      name="clientType"
+                      value="new"
+                      checked={clientType === "new"}
+                      onChange={() => setClientType("new")}
+                    />
+                    <span className="udcRadioLabelText">New</span>
+                  </label>
+
+                  <label className="udcRadioOption">
+                    <input
+                      type="radio"
+                      name="clientType"
+                      value="existing"
+                      checked={clientType === "existing"}
+                      onChange={() => setClientType("existing")}
+                    />
+                    <span className="udcRadioLabelText">Existing</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              {/* Client Type, Client Name, Tagline in the same responsive row */}
+              <div className="udcConfigClientRow">
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="clientTypeDisplay">
+                    Client Type
+                  </label>
+                  <select
+                    id="clientTypeDisplay"
+                    className="udcInput"
+                    value={clientType}
+                    onChange={(e) => setClientType(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Select client type
+                    </option>
+                    <option value="new">New</option>
+                    <option value="existing">Existing</option>
+                  </select>
+                </div>
+
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="companyName">
+                    Client Name
+                  </label>
+                  <input
+                    id="companyName"
+                    className="udcInput"
+                    placeholder="Enter client name"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                  />
+                </div>
+
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="tagline">
+                    Tagline (optional)
+                  </label>
+                  <input
+                    id="tagline"
+                    className="udcInput"
+                    placeholder="Your company tagline"
+                    value={tagline}
+                    onChange={(e) => setTagline(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </Card>
 
