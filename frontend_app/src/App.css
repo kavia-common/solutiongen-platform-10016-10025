@@ -566,20 +566,24 @@
   gap: 8px;
 }
 
-/* Input with an inline icon button on the right */
+/* Input with an inline icon button on the right (end-adornment inside the field) */
 .udcInputWithIcon{
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .udcInput--withIcon{
-  padding-right: 44px; /* room for the icon button */
+  width: 100%;
+  /* Ensure the text never goes under the eye button.
+     44px was a bit tight; use a slightly larger value for better spacing. */
+  padding-right: 52px;
 }
 
 .udcIconBtn{
   position: absolute;
-  right: 8px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   height: 30px;
