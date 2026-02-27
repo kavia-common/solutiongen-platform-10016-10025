@@ -603,15 +603,17 @@
   align-items: start;
 }
 
+/* Add vertical breathing room after the entire organization row so it doesn't
+   visually touch the next row (User Role / Purpose). */
+.udcFieldset[aria-label="User organization"]{
+  margin-bottom: 8px;
+}
+
 /* Make radio options look like inputs and fill their grid columns */
 .udcOrgRadioOption{
   width: 100%;
   min-height: 42px; /* match .udcInput height */
   justify-content: flex-start;
-
-  /* Requested alignment tweak: move Tata Elxsi/External slightly up without affecting layout flow */
-  position: relative;
-  top: -3px;
 }
 
 /* Business Unit uses label + select stacked, consistent with other fields */
@@ -620,10 +622,6 @@
   flex-direction: column;
   gap: 8px;
   min-width: 0;
-
-  /* Move the label + dropdown up slightly for tighter alignment with the radio row. */
-  position: relative;
-  top: -3px;
 }
 
 /* Radio group container: keep Tata Elxsi + External inline on the same row when possible,
