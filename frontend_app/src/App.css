@@ -588,6 +588,13 @@
   color: var(--text-primary);
 }
 
+/* Ensure the radio control visually aligns with other form inputs (e.g., select)
+   when placed side-by-side in .udcFieldRow2Col. */
+.udcFieldset .udcRadioOption{
+  width: 100%;
+  min-height: 42px; /* match .udcInput height */
+}
+
 .udcRadioOption input{
   accent-color: var(--accent-yellow);
 }
