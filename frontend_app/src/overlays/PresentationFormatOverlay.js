@@ -22,11 +22,11 @@ export default function PresentationFormatOverlay({
   // Translate existing/legacy format names to the updated product labels.
   // This avoids requiring changes in upstream data sources while ensuring the UI copy matches the spec.
   const titleOverrides = {
-    "Executive Deck": "Project Solution Framework Deck",
+    "Executive Deck": "Project Solution Framework",
     "Technical Deep Dive": "Architecture & Design",
     "Technical Deep-Dive": "Architecture & Design",
-    "Architecture & Diagrams": "Capability / Demo Deck",
-    "Workflow & Process": "End-to-End Deck",
+    "Architecture & Diagrams": "Capability / Demo",
+    "Workflow & Process": "End-to-End",
   };
 
   function getFormatTitle(format) {
