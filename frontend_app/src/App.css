@@ -599,14 +599,14 @@
   display: grid;
 
   /*
-    Reduce the space occupied by the two radio options so they don't feel overly wide,
-    while preserving a responsive layout and leaving comfortable room for Business Unit.
-    - First two columns: sized to their content (but capped), so they don't expand to 1fr each.
-    - Third column: takes remaining space for the Business Unit select.
+    Keep Tata Elxsi + External inline, and place Business Unit in the same row.
+    Key behavior for this task:
+    - Align to the bottom so the Business Unit <select> baseline lines up with the radio controls.
+    - Remain responsive: third column flexes, and we still stack at small widths (see @media).
   */
   grid-template-columns: minmax(160px, 200px) minmax(140px, 180px) minmax(0, 1fr);
   gap: 10px;
-  align-items: start;
+  align-items: end; /* aligns BU control with External radio, matching screenshot */
 }
 
 /* Add vertical breathing room after the entire organization row so it doesn't
@@ -622,13 +622,11 @@
   justify-content: flex-start;
 
   /*
-    Visual alignment tweak (desktop/tablet):
-    Bring the Tata Elxsi / External "input-like" radios slightly upward without
-    affecting layout flow or collapsing spacing to surrounding rows.
-    We use a small relative offset so the grid spacing remains unchanged.
+    No vertical nudges: we rely on the grid's `align-items: end` on .udcOrgRow
+    so the Business Unit dropdown aligns cleanly with the External option.
   */
   position: relative;
-  top: 9px; /* nudge upward by 1px more while keeping surrounding spacing unchanged */
+  top: 0;
 }
 
 /* Business Unit uses label + select stacked, consistent with other fields */
