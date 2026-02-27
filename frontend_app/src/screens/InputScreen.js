@@ -41,6 +41,8 @@ export default function InputScreen() {
   const [isPresentationFormatOpen, setIsPresentationFormatOpen] = useState(false);
   const [presentationFormat, setPresentationFormat] = useState(null);
   const [presentationSlideCount, setPresentationSlideCount] = useState(7);
+  /** Custom presentation type when user chooses to type an alternative format. */
+  const [presentationFormatOther, setPresentationFormatOther] = useState("");
 
   /**
    * Simple validation state for required credentials.
@@ -632,6 +634,8 @@ export default function InputScreen() {
           slideCount={presentationSlideCount}
           onSlideCountChange={setPresentationSlideCount}
           onSelectFormat={setPresentationFormat}
+          otherText={presentationFormatOther}
+          onOtherTextChange={setPresentationFormatOther}
           onClose={() => setIsPresentationFormatOpen(false)}
           onContinue={onPresentationFormatContinue}
         />

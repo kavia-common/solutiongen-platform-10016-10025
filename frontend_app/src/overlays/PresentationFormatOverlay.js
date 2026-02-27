@@ -14,10 +14,13 @@ export default function PresentationFormatOverlay({
   slideCount,
   onSlideCountChange,
   onSelectFormat,
+  otherText,
+  onOtherTextChange,
   onClose,
   onContinue,
 }) {
   const slideCountInputId = "presentationSlideCount";
+  const otherInputId = "presentationFormatOther";
 
   // Translate existing/legacy format names to the updated product labels.
   // This avoids requiring changes in upstream data sources while ensuring the UI copy matches the spec.
@@ -68,24 +71,42 @@ export default function PresentationFormatOverlay({
         <div className="pfOptions" role="list" aria-label="Presentation format options">
           {formats.map((f) => {
             const isSelected = f.id === selectedFormatId;
+            const isEndToEnd = getFormatTitle(f) === "End-to-End";
 
             return (
-              <button
-                key={f.id}
-                type="button"
-                className={["pfOptionRow", isSelected ? "isSelected" : ""].join(" ").trim()}
-                onClick={() => onSelectFormat(f.id)}
-                aria-pressed={isSelected}
-              >
-                <div className="pfOptionText">
-                  <div className="pfOptionTitle">{getFormatTitle(f)}</div>
-                  <div className="pfOptionDesc">{f.description}</div>
-                </div>
+              <div key={f.id} className="pfOptionGroup" role="listitem">
+                <button
+                  type="button"
+                  className={["pfOptionRow", isSelected ? "isSelected" : ""].join(" ").trim()}
+                  onClick={() => onSelectFormat(f.id)}
+                  aria-pressed={isSelected}
+                >
+                  <div className="pfOptionText">
+                    <div className="pfOptionTitle">{getFormatTitle(f)}</div>
+                    <div className="pfOptionDesc">{f.description}</div>
+                  </div>
 
-                <span className="pfOptionAction" aria-hidden="true">
-                  <RowArrowIcon />
-                </span>
-              </button>
+                  <span className="pfOptionAction" aria-hidden="true">
+                    <RowArrowIcon />
+                  </span>
+                </button>
+
+                {isEndToEnd ? (
+                  <div className="pfOtherWrap">
+                    <label className="pfOtherLabel" htmlFor={otherInputId}>
+                      Other
+                    </label>
+                    <input
+                      id={otherInputId}
+                      className="pfOtherInput"
+                      type="text"
+                      value={otherText}
+                      placeholder="Type a custom presentation type"
+                      onChange={(e) => onOtherTextChange(e.target.value)}
+                    />
+                  </div>
+                ) : null}
+              </div>
             );
           })}
         </div>
