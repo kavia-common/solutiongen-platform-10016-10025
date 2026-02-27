@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "../App.css";
 import { CloseXIcon, RowArrowIcon } from "../components/icons";
 
@@ -36,13 +36,40 @@ export default function PresentationFormatOverlay({
     return titleOverrides[format.title] || format.title;
   }
 
-  // Clamp to a safe, reasonable range and keep it integer-only.
-  function setSlideCountSafe(next) {
+  const selectedFormatTitle = useMemo(() => {
+    const found = formats.find((f) => f.id === selectedFormatId);
+    return found ? getFormatTitle(found) : null;
+  }, [formats, selectedFormatId]);
+
+  const isEndToEndSelected = selectedFormatTitle === "End-to-End";
+
+  // Slide count (for this control) is constrained between 0 and 25, integer-only.
+  function clampSlideCount(next) {
     const asNumber = Number(next);
-    if (!Number.isFinite(asNumber)) return;
-    const clamped = Math.max(1, Math.min(99, Math.round(asNumber)));
+    if (!Number.isFinite(asNumber)) return null;
+    return Math.max(0, Math.min(25, Math.round(asNumber)));
+  }
+
+  function setSlideCountSafe(next) {
+    const clamped = clampSlideCount(next);
+    if (clamped === null) return;
     onSlideCountChange(clamped);
   }
+
+  function increment() {
+    setSlideCountSafe((Number(slideCount) || 0) + 1);
+  }
+
+  function decrement() {
+    setSlideCountSafe((Number(slideCount) || 0) - 1);
+  }
+
+  const slideCountIsValid = useMemo(() => {
+    const n = Number(slideCount);
+    return Number.isInteger(n) && n >= 0 && n <= 25;
+  }, [slideCount]);
+
+  const canContinue = Boolean(selectedFormatId) && (!isEndToEndSelected || slideCountIsValid);
 
   return (
     <div
@@ -93,17 +120,73 @@ export default function PresentationFormatOverlay({
 
                 {isEndToEnd ? (
                   <div className="pfOtherWrap">
-                    <label className="pfOtherLabel" htmlFor={otherInputId}>
-                      Other
-                    </label>
-                    <input
-                      id={otherInputId}
-                      className="pfOtherInput"
-                      type="text"
-                      value={otherText}
-                      placeholder="Type a custom presentation type"
-                      onChange={(e) => onOtherTextChange(e.target.value)}
-                    />
+                    <div className="pfOtherRow">
+                      <div className="pfOtherCol">
+                        <label className="pfOtherLabel" htmlFor={otherInputId}>
+                          Other
+                        </label>
+                        <input
+                          id={otherInputId}
+                          className="pfOtherInput"
+                          type="text"
+                          value={otherText}
+                          placeholder="Type a custom presentation type"
+                          onChange={(e) => onOtherTextChange(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="pfOtherCol pfOtherCol--slideCount">
+                        <label className="pfOtherLabel" htmlFor={slideCountInputId}>
+                          Slide Count
+                        </label>
+
+                        <div
+                          className="pfSlideStepper"
+                          role="group"
+                          aria-label="Slide count (0 to 25)"
+                        >
+                          <button
+                            type="button"
+                            className="pfStepBtn"
+                            onClick={decrement}
+                            disabled={!slideCountIsValid || Number(slideCount) <= 0}
+                            aria-label="Decrease slide count"
+                          >
+                            −
+                          </button>
+
+                          <input
+                            id={slideCountInputId}
+                            className={["pfStepInput", !slideCountIsValid ? "isError" : ""].join(" ").trim()}
+                            type="number"
+                            inputMode="numeric"
+                            min={0}
+                            max={25}
+                            value={slideCount}
+                            onChange={(e) => setSlideCountSafe(e.target.value)}
+                            aria-invalid={!slideCountIsValid}
+                          />
+
+                          <button
+                            type="button"
+                            className="pfStepBtn"
+                            onClick={increment}
+                            disabled={!slideCountIsValid || Number(slideCount) >= 25}
+                            aria-label="Increase slide count"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        {!slideCountIsValid ? (
+                          <div className="pfInlineError" role="alert">
+                            Slide count must be between 0 and 25.
+                          </div>
+                        ) : (
+                          <div className="pfInlineErrorSpacer" aria-hidden="true" />
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ) : null}
               </div>
@@ -111,32 +194,14 @@ export default function PresentationFormatOverlay({
           })}
         </div>
 
-        <div className="pfSectionLabel">Customize Slide Count</div>
-
         <div className="pfBottomBar">
-          <label className="pfSlideCountWrap" htmlFor={slideCountInputId}>
-            <input
-              id={slideCountInputId}
-              className="pfSlideCountInput"
-              type="number"
-              inputMode="numeric"
-              min={1}
-              max={99}
-              value={slideCount}
-              onChange={(e) => setSlideCountSafe(e.target.value)}
-              aria-label="Slide count"
-            />
-            <span className="pfSlidesSuffix" aria-hidden="true">
-              slides
-            </span>
-          </label>
-
           <button
             type="button"
             className="pfContinueBtn"
             onClick={onContinue}
-            disabled={!selectedFormatId}
-            aria-disabled={!selectedFormatId}
+            disabled={!canContinue}
+            aria-disabled={!canContinue}
+            title={!canContinue ? "Select a format and ensure slide count is between 0 and 25." : undefined}
           >
             Continue <span aria-hidden="true">→</span>
           </button>

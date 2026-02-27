@@ -40,7 +40,7 @@ export default function InputScreen() {
    */
   const [isPresentationFormatOpen, setIsPresentationFormatOpen] = useState(false);
   const [presentationFormat, setPresentationFormat] = useState(null);
-  const [presentationSlideCount, setPresentationSlideCount] = useState(7);
+  const [presentationSlideCount, setPresentationSlideCount] = useState(0);
   /** Custom presentation type when user chooses to type an alternative format. */
   const [presentationFormatOther, setPresentationFormatOther] = useState("");
 
