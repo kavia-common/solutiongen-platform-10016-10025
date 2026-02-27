@@ -151,7 +151,13 @@ export default function PresentationFormatOverlay({
                 <button
                   type="button"
                   className={["pfOptionRow", isSelected ? "isSelected" : ""].join(" ").trim()}
-                  onClick={() => onSelectFormat(f.id)}
+                  onClick={() => {
+                    // Mutually exclusive behavior:
+                    // Selecting a preset clears any "Other" value and slide count (which is only meaningful for Other mode).
+                    onSelectFormat(f.id);
+                    if ((otherText || "").trim().length > 0) onOtherTextChange("");
+                    if (Number(slideCount) !== 0) onSlideCountChange(0);
+                  }}
                   aria-pressed={isSelected}
                 >
                   <div className="pfOptionText">
@@ -177,7 +183,19 @@ export default function PresentationFormatOverlay({
                           type="text"
                           value={otherText}
                           placeholder="Type a custom presentation type"
-                          onChange={(e) => onOtherTextChange(e.target.value)}
+                          onChange={(e) => {
+                            const nextText = e.target.value;
+                            const nextPresent = (nextText || "").trim().length > 0;
+
+                            // Mutually exclusive behavior:
+                            // Typing a non-empty "Other" clears any preset selection.
+                            if (nextPresent && selectedFormatId) onSelectFormat(null);
+
+                            // If the user clears Other, reset slide count to 0.
+                            if (!nextPresent && Number(slideCount) !== 0) onSlideCountChange(0);
+
+                            onOtherTextChange(nextText);
+                          }}
                         />
                       </div>
 
@@ -186,11 +204,7 @@ export default function PresentationFormatOverlay({
                           Slide Count
                         </label>
 
-                        <div
-                          className="pfSlideStepper"
-                          role="group"
-                          aria-label="Slide count (0 to 25)"
-                        >
+                        <div className="pfSlideStepper" role="group" aria-label="Slide count (0 to 25)">
                           <button
                             type="button"
                             className="pfStepBtn"

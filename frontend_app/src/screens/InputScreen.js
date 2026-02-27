@@ -260,6 +260,28 @@ export default function InputScreen() {
   const secretAccessKeyMissing =
     (showCredentialValidation || secretAccessKeyTouched) && secretAccessKey.trim().length === 0;
 
+  // Mutually exclusive behavior: preset selection vs "Other"
+  function handleSelectPresentationFormat(formatId) {
+    setPresentationFormat(formatId);
+
+    // Selecting a preset clears Other and slide count.
+    if ((presentationFormatOther || "").trim().length > 0) setPresentationFormatOther("");
+    if (Number(presentationSlideCount) !== 0) setPresentationSlideCount(0);
+  }
+
+  // Mutually exclusive behavior: preset selection vs "Other"
+  function handlePresentationOtherChange(nextText) {
+    setPresentationFormatOther(nextText);
+
+    const otherPresent = (nextText || "").trim().length > 0;
+
+    // Typing Other clears preset selection.
+    if (otherPresent && presentationFormat) setPresentationFormat(null);
+
+    // Clearing Other resets slide count to 0 (slide count is only meaningful for Other mode).
+    if (!otherPresent && Number(presentationSlideCount) !== 0) setPresentationSlideCount(0);
+  }
+
   return (
     <div className="udcPage">
       <HeaderBar />
@@ -639,9 +661,9 @@ export default function InputScreen() {
           selectedFormatId={presentationFormat}
           slideCount={presentationSlideCount}
           onSlideCountChange={setPresentationSlideCount}
-          onSelectFormat={setPresentationFormat}
+          onSelectFormat={handleSelectPresentationFormat}
           otherText={presentationFormatOther}
-          onOtherTextChange={setPresentationFormatOther}
+          onOtherTextChange={handlePresentationOtherChange}
           onClose={() => setIsPresentationFormatOpen(false)}
           onContinue={onPresentationFormatContinue}
         />
