@@ -327,70 +327,70 @@ function App() {
                 </div>
               </div>
 
-              {/* User Organization (radio) + conditional Business Unit (dropdown) */}
-              <div className="udcFieldRow2Col">
-                <fieldset className="udcField udcFieldset" aria-label="User organization">
-                  <legend className="udcLabel">User Organization</legend>
+              {/* User Organization (radio) + conditional Business Unit (dropdown)
+                  Requirement:
+                  - Tata Elxsi and External radios should be inline
+                  - When Tata Elxsi is selected, show Business Unit dropdown next to External
+                    in the same row under Secret Access Key. */}
+              <fieldset className="udcField udcFieldset" aria-label="User organization">
+                <legend className="udcLabel">User Organization</legend>
 
-                  <div className="udcRadioGroup" role="radiogroup" aria-label="User Organization">
-                    <label className="udcRadioOption">
-                      <input
-                        type="radio"
-                        name="userOrganization"
-                        value="tata_elxsi"
-                        checked={userOrganization === "tata_elxsi"}
-                        onChange={() => {
-                          setUserOrganization("tata_elxsi");
-                          // If user is switching org, keep BU empty to avoid stale selection.
-                          setBusinessUnit("");
-                        }}
-                      />
-                      <span className="udcRadioLabelText">Tata Elxsi</span>
-                    </label>
+                <div className="udcOrgRow" role="radiogroup" aria-label="User Organization">
+                  <label className="udcRadioOption udcOrgRadioOption">
+                    <input
+                      type="radio"
+                      name="userOrganization"
+                      value="tata_elxsi"
+                      checked={userOrganization === "tata_elxsi"}
+                      onChange={() => {
+                        setUserOrganization("tata_elxsi");
+                        // If user is switching org, keep BU empty to avoid stale selection.
+                        setBusinessUnit("");
+                      }}
+                    />
+                    <span className="udcRadioLabelText">Tata Elxsi</span>
+                  </label>
 
-                    <label className="udcRadioOption">
-                      <input
-                        type="radio"
-                        name="userOrganization"
-                        value="external"
-                        checked={userOrganization === "external"}
-                        onChange={() => {
-                          setUserOrganization("external");
-                          // External users should not carry a stale Business Unit selection.
-                          setBusinessUnit("");
-                        }}
-                      />
-                      <span className="udcRadioLabelText">External</span>
-                    </label>
-                  </div>
-                </fieldset>
+                  <label className="udcRadioOption udcOrgRadioOption">
+                    <input
+                      type="radio"
+                      name="userOrganization"
+                      value="external"
+                      checked={userOrganization === "external"}
+                      onChange={() => {
+                        setUserOrganization("external");
+                        // External users should not carry a stale Business Unit selection.
+                        setBusinessUnit("");
+                      }}
+                    />
+                    <span className="udcRadioLabelText">External</span>
+                  </label>
 
-                {userOrganization === "tata_elxsi" ? (
-                  <div className="udcField">
-                    <label className="udcLabel" htmlFor="businessUnit">
-                      Business Unit
-                    </label>
-                    <select
-                      id="businessUnit"
-                      className="udcInput"
-                      value={businessUnit}
-                      onChange={(e) => setBusinessUnit(e.target.value)}
-                    >
-                      <option value="" disabled>
-                        Select business unit
-                      </option>
-                      <option value="MCVA">MCVA</option>
-                      <option value="MCVR">MCVR</option>
-                      <option value="ACTG">ACTG</option>
-                      <option value="IDV">IDV</option>
-                      <option value="HLSBU">HLSBU</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                ) : (
-                  <div />
-                )}
-              </div>
+                  {userOrganization === "tata_elxsi" ? (
+                    <div className="udcOrgBusinessUnit">
+                      <label className="udcLabel" htmlFor="businessUnit">
+                        Business Unit
+                      </label>
+                      <select
+                        id="businessUnit"
+                        className="udcInput"
+                        value={businessUnit}
+                        onChange={(e) => setBusinessUnit(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          Select business unit
+                        </option>
+                        <option value="MCVA">MCVA</option>
+                        <option value="MCVR">MCVR</option>
+                        <option value="ACTG">ACTG</option>
+                        <option value="IDV">IDV</option>
+                        <option value="HLSBU">HLSBU</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  ) : null}
+                </div>
+              </fieldset>
 
               <label className="udcLabel" htmlFor="companyName">
                 Client Name

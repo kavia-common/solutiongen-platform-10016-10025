@@ -577,6 +577,30 @@
   margin-top: 0;
 }
 
+/* Organization row: Tata Elxsi + External inline, and (conditionally) Business Unit
+   appears to the right of External under Secret Access Key. */
+.udcOrgRow{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+/* Make radio options look like inputs and fill their grid columns */
+.udcOrgRadioOption{
+  width: 100%;
+  min-height: 42px; /* match .udcInput height */
+  justify-content: flex-start;
+}
+
+/* Business Unit uses label + select stacked, consistent with other fields */
+.udcOrgBusinessUnit{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
 /* Radio group container: keep Tata Elxsi + External inline on the same row when possible,
    but allow wrapping on narrow widths. */
 .udcRadioGroup{
@@ -835,6 +859,10 @@
   .udcOutputGrid{ grid-template-columns: 1fr; }
   .udcCtaButton{ width: 100%; min-width: 0; }
   .udcFieldRow2Col{ grid-template-columns: 1fr; }
+
+  .udcOrgRow{
+    grid-template-columns: 1fr;
+  }
 
   /* When stacked, remove the alignment offset so spacing looks natural. */
   .udcFieldset .udcRadioOption{
