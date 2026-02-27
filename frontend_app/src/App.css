@@ -577,6 +577,20 @@
   margin-top: 0;
 }
 
+/* Radio group container: keep Tata Elxsi + External inline on the same row when possible,
+   but allow wrapping on narrow widths. */
+.udcRadioGroup{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Each option should share the row evenly (2-up), and wrap naturally when needed. */
+.udcRadioGroup .udcRadioOption{
+  flex: 1 1 220px; /* responsive: 2-up typically; wraps below ~460px */
+  min-width: 0;
+}
+
 .udcRadioOption{
   display: inline-flex;
   align-items: center;

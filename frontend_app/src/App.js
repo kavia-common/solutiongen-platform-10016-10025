@@ -332,35 +332,37 @@ function App() {
                 <fieldset className="udcField udcFieldset" aria-label="User organization">
                   <legend className="udcLabel">User Organization</legend>
 
-                  <label className="udcRadioOption">
-                    <input
-                      type="radio"
-                      name="userOrganization"
-                      value="tata_elxsi"
-                      checked={userOrganization === "tata_elxsi"}
-                      onChange={() => {
-                        setUserOrganization("tata_elxsi");
-                        // If user is switching org, keep BU empty to avoid stale selection.
-                        setBusinessUnit("");
-                      }}
-                    />
-                    <span className="udcRadioLabelText">Tata Elxsi</span>
-                  </label>
+                  <div className="udcRadioGroup" role="radiogroup" aria-label="User Organization">
+                    <label className="udcRadioOption">
+                      <input
+                        type="radio"
+                        name="userOrganization"
+                        value="tata_elxsi"
+                        checked={userOrganization === "tata_elxsi"}
+                        onChange={() => {
+                          setUserOrganization("tata_elxsi");
+                          // If user is switching org, keep BU empty to avoid stale selection.
+                          setBusinessUnit("");
+                        }}
+                      />
+                      <span className="udcRadioLabelText">Tata Elxsi</span>
+                    </label>
 
-                  <label className="udcRadioOption">
-                    <input
-                      type="radio"
-                      name="userOrganization"
-                      value="external"
-                      checked={userOrganization === "external"}
-                      onChange={() => {
-                        setUserOrganization("external");
-                        // External users should not carry a stale Business Unit selection.
-                        setBusinessUnit("");
-                      }}
-                    />
-                    <span className="udcRadioLabelText">External</span>
-                  </label>
+                    <label className="udcRadioOption">
+                      <input
+                        type="radio"
+                        name="userOrganization"
+                        value="external"
+                        checked={userOrganization === "external"}
+                        onChange={() => {
+                          setUserOrganization("external");
+                          // External users should not carry a stale Business Unit selection.
+                          setBusinessUnit("");
+                        }}
+                      />
+                      <span className="udcRadioLabelText">External</span>
+                    </label>
+                  </div>
                 </fieldset>
 
                 {userOrganization === "tata_elxsi" ? (
