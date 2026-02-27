@@ -346,6 +346,21 @@ function App() {
                     />
                     <span className="udcRadioLabelText">Tata Elxsi</span>
                   </label>
+
+                  <label className="udcRadioOption">
+                    <input
+                      type="radio"
+                      name="userOrganization"
+                      value="external"
+                      checked={userOrganization === "external"}
+                      onChange={() => {
+                        setUserOrganization("external");
+                        // External users should not carry a stale Business Unit selection.
+                        setBusinessUnit("");
+                      }}
+                    />
+                    <span className="udcRadioLabelText">External</span>
+                  </label>
                 </fieldset>
 
                 {userOrganization === "tata_elxsi" ? (
