@@ -19,6 +19,11 @@ function App() {
   /** Whether the Secret Access Key is visible (unmasked). */
   const [showSecretAccessKey, setShowSecretAccessKey] = useState(false);
 
+  /** User organization selection (radio). */
+  const [userOrganization, setUserOrganization] = useState("");
+  /** Business unit selection, only applicable when Tata Elxsi is selected. */
+  const [businessUnit, setBusinessUnit] = useState("");
+
   /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -320,6 +325,54 @@ function App() {
                     </button>
                   </div>
                 </div>
+              </div>
+
+              {/* User Organization (radio) + conditional Business Unit (dropdown) */}
+              <div className="udcFieldRow2Col">
+                <fieldset className="udcField udcFieldset" aria-label="User organization">
+                  <legend className="udcLabel">User Organization</legend>
+
+                  <label className="udcRadioOption">
+                    <input
+                      type="radio"
+                      name="userOrganization"
+                      value="tata_elxsi"
+                      checked={userOrganization === "tata_elxsi"}
+                      onChange={() => {
+                        setUserOrganization("tata_elxsi");
+                        // If user is switching org, keep BU empty to avoid stale selection.
+                        setBusinessUnit("");
+                      }}
+                    />
+                    <span className="udcRadioLabelText">Tata Elxsi</span>
+                  </label>
+                </fieldset>
+
+                {userOrganization === "tata_elxsi" ? (
+                  <div className="udcField">
+                    <label className="udcLabel" htmlFor="businessUnit">
+                      Business Unit
+                    </label>
+                    <select
+                      id="businessUnit"
+                      className="udcInput"
+                      value={businessUnit}
+                      onChange={(e) => setBusinessUnit(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select business unit
+                      </option>
+                      <option value="MCVA">MCVA</option>
+                      <option value="MCVR">MCVR</option>
+                      <option value="ACTG">ACTG</option>
+                      <option value="IDV">IDV</option>
+                      <option value="HLSBU">HLSBU</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                ) : (
+                  <div />
+                )}
               </div>
 
               <label className="udcLabel" htmlFor="companyName">
