@@ -279,7 +279,6 @@ function App() {
                       onChange={(e) => setAccessKeyId(e.target.value)}
                       autoComplete="off"
                       spellCheck="false"
-                      aria-describedby="accessKeyIdHelp"
                     />
                     <button
                       type="button"
@@ -290,9 +289,6 @@ function App() {
                     >
                       <EyeIcon visible={showAccessKeyId} />
                     </button>
-                  </div>
-                  <div id="accessKeyIdHelp" className="udcHelpText">
-                    Stored locally for now (no backend wiring yet).
                   </div>
                 </div>
 
@@ -310,7 +306,6 @@ function App() {
                       onChange={(e) => setSecretAccessKey(e.target.value)}
                       autoComplete="off"
                       spellCheck="false"
-                      aria-describedby="secretAccessKeyHelp"
                     />
                     <button
                       type="button"
@@ -323,9 +318,6 @@ function App() {
                     >
                       <EyeIcon visible={showSecretAccessKey} />
                     </button>
-                  </div>
-                  <div id="secretAccessKeyHelp" className="udcHelpText">
-                    Keep this private. Toggle visibility with the eye icon.
                   </div>
                 </div>
               </div>
