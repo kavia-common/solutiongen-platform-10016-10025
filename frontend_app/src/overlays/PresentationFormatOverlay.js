@@ -69,6 +69,11 @@ export default function PresentationFormatOverlay({
     return Number.isInteger(n) && n >= 0 && n <= 25;
   }, [slideCount]);
 
+  // Slide count stepper is only enabled when the user provides a custom "Other" format.
+  // Keep existing clamping/validation behavior once enabled.
+  const isOtherTextPresent = (otherText || "").trim().length > 0;
+  const slideCountEnabled = isEndToEndSelected && isOtherTextPresent;
+
   const canContinue = Boolean(selectedFormatId) && (!isEndToEndSelected || slideCountIsValid);
 
   return (
@@ -149,7 +154,7 @@ export default function PresentationFormatOverlay({
                             type="button"
                             className="pfStepBtn"
                             onClick={decrement}
-                            disabled={!slideCountIsValid || Number(slideCount) <= 0}
+                            disabled={!slideCountEnabled || !slideCountIsValid || Number(slideCount) <= 0}
                             aria-label="Decrease slide count"
                           >
                             −
@@ -165,13 +170,14 @@ export default function PresentationFormatOverlay({
                             value={slideCount}
                             onChange={(e) => setSlideCountSafe(e.target.value)}
                             aria-invalid={!slideCountIsValid}
+                            disabled={!slideCountEnabled}
                           />
 
                           <button
                             type="button"
                             className="pfStepBtn"
                             onClick={increment}
-                            disabled={!slideCountIsValid || Number(slideCount) >= 25}
+                            disabled={!slideCountEnabled || !slideCountIsValid || Number(slideCount) >= 25}
                             aria-label="Increase slide count"
                           >
                             +
