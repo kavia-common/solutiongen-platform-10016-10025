@@ -594,14 +594,14 @@
   width: 100%;
   min-height: 42px; /* match .udcInput height */
   /*
-    Slight vertical alignment tweak:
-    In the 2-column row, the right column has a label above the <select>,
-    while the left column contains only the radio "input-like" control.
-    This pushes the radio option down a bit to align with the dropdown field.
+    Vertical alignment tweak:
+    The right column has a label above the <select>, while the left column contains
+    only the radio "input-like" control. We offset the radio slightly downward to
+    align with the dropdown field, but keep it subtle so it doesn't appear too low.
     Use a relative offset so layout stays responsive (no fixed heights).
   */
   position: relative;
-  top: 22px;
+  top: 16px;
 }
 
 .udcRadioOption input{
