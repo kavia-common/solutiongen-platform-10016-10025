@@ -244,7 +244,13 @@ export default function InputScreen() {
   function onPresentationFormatContinue() {
     // Close overlay and keep the selection state persisted in App state.
     // In later steps, this should influence generation parameters.
-    if (!presentationFormat) return;
+    //
+    // Mutually exclusive modes:
+    // - Preset mode: `presentationFormat` is set, `presentationFormatOther` is empty.
+    // - Other mode: `presentationFormatOther` is non-empty, `presentationFormat` is null.
+    const otherPresent = (presentationFormatOther || "").trim().length > 0;
+
+    if (!presentationFormat && !otherPresent) return;
     setIsPresentationFormatOpen(false);
   }
 
