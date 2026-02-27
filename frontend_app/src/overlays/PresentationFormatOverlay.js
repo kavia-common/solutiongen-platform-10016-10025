@@ -19,6 +19,19 @@ export default function PresentationFormatOverlay({
 }) {
   const slideCountInputId = "presentationSlideCount";
 
+  // Translate existing/legacy format names to the updated product labels.
+  // This avoids requiring changes in upstream data sources while ensuring the UI copy matches the spec.
+  const titleOverrides = {
+    "Executive Deck": "Project Solution Framework Deck",
+    "Technical Deep Dive": "Architecture & Design Deck",
+    "Architecture & Diagrams": "Capability / Demo Deck",
+    "Workflow & Process": "End-to-End Deck",
+  };
+
+  function getFormatTitle(format) {
+    return titleOverrides[format.title] || format.title;
+  }
+
   // Clamp to a safe, reasonable range and keep it integer-only.
   function setSlideCountSafe(next) {
     const asNumber = Number(next);
@@ -32,7 +45,7 @@ export default function PresentationFormatOverlay({
       className="pfOverlayScrim"
       role="dialog"
       aria-modal="true"
-      aria-label="Select Presentation Format"
+      aria-label="Presentation Format"
       onMouseDown={(e) => {
         // Clicking the scrim closes (common modal behavior). Only close when
         // the user clicks the scrim itself, not inside the modal content.
@@ -42,7 +55,7 @@ export default function PresentationFormatOverlay({
       <div className="pfModal" role="document">
         <div className="pfHeader">
           <div className="pfHeaderText">
-            <div className="pfTitle">Select Presentation Format</div>
+            <div className="pfTitle">Presentation Format</div>
             <div className="pfSubtitle">Choose the type of presentation that best fits your needs</div>
           </div>
 
@@ -64,7 +77,7 @@ export default function PresentationFormatOverlay({
                 aria-pressed={isSelected}
               >
                 <div className="pfOptionText">
-                  <div className="pfOptionTitle">{f.title}</div>
+                  <div className="pfOptionTitle">{getFormatTitle(f)}</div>
                   <div className="pfOptionDesc">{f.description}</div>
                 </div>
 
