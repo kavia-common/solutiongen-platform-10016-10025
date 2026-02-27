@@ -88,6 +88,137 @@ export function RowArrowIcon() {
 }
 
 /**
+ * PPT-related icons for the Presentation Format overlay row-end action.
+ * These are small, single-color glyphs intended to be placed inside the existing
+ * yellow rounded-square container (see .pfOptionAction).
+ *
+ * Note: The design notes screenshot does not include the visible row labels,
+ * so we map based on the *displayed* titles currently used in PresentationFormatOverlay.
+ */
+
+// PUBLIC_INTERFACE
+export function PPTDeckIcon({ className = "" }) {
+  /** Represents a "deck" (stack of slides). */
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="7" y="5" width="12" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
+      <path d="M5 7v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+      <path d="M9.5 9h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <path d="M9.5 12h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+    </svg>
+  );
+}
+
+// PUBLIC_INTERFACE
+export function PPTArchitectureIcon({ className = "" }) {
+  /** Represents "architecture & design" (nodes + connector). */
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="4.5" y="4.5" width="6" height="6" rx="1.4" stroke="currentColor" strokeWidth="2" />
+      <rect x="13.5" y="4.5" width="6" height="6" rx="1.4" stroke="currentColor" strokeWidth="2" />
+      <rect x="9" y="13.5" width="6" height="6" rx="1.4" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M10.5 7.5h3"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.95"
+      />
+      <path
+        d="M9.6 14.4 7.2 10.6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.95"
+      />
+      <path
+        d="M14.4 14.4l2.4-3.8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.95"
+      />
+    </svg>
+  );
+}
+
+// PUBLIC_INTERFACE
+export function PPTDemoIcon({ className = "" }) {
+  /** Represents "capability / demo" (play button in a screen). */
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect x="4.5" y="6" width="15" height="10.5" rx="2" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 16.5v3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M9.5 20h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M11 10.2 15 12l-4 1.8v-3.6Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+// PUBLIC_INTERFACE
+export function PPTEndToEndIcon({ className = "" }) {
+  /** Represents "end-to-end" (connected flow). */
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M6.5 8.5h7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.95"
+      />
+      <path
+        d="M10.5 15.5h7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.95"
+      />
+      <circle cx="6" cy="8.5" r="2" stroke="currentColor" strokeWidth="2" />
+      <circle cx="18" cy="15.5" r="2" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M7.8 10.2l2.9 2.9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/**
  * Yellow rounded-square icon used in the "Configuration" card header.
  * Matches the existing header icon pattern (yellow tile + dark glyph).
  */

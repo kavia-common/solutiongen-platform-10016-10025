@@ -1,6 +1,12 @@
 import React, { useMemo } from "react";
 import "../App.css";
-import { CloseXIcon, RowArrowIcon } from "../components/icons";
+import {
+  CloseXIcon,
+  PPTArchitectureIcon,
+  PPTDeckIcon,
+  PPTDemoIcon,
+  PPTEndToEndIcon,
+} from "../components/icons";
 
 /**
  * Presentation format selection overlay.
@@ -48,6 +54,23 @@ export default function PresentationFormatOverlay({
   function getFormatTagline(format) {
     const title = getFormatTitle(format);
     return optionTaglines[title] || format.description;
+  }
+
+  function getFormatRowEndIcon(displayTitle) {
+    // Map by displayed title (after overrides) so upstream data can stay unchanged.
+    switch (displayTitle) {
+      case "Project Solution Framework":
+        return <PPTDeckIcon className="pfPptIcon" />;
+      case "Architecture & Design":
+        return <PPTArchitectureIcon className="pfPptIcon" />;
+      case "Capability / Demo":
+        return <PPTDemoIcon className="pfPptIcon" />;
+      case "End-to-End":
+        return <PPTEndToEndIcon className="pfPptIcon" />;
+      default:
+        // Safe fallback: show deck icon for unknown/added types.
+        return <PPTDeckIcon className="pfPptIcon" />;
+    }
   }
 
   const selectedFormatTitle = useMemo(() => {
@@ -120,7 +143,8 @@ export default function PresentationFormatOverlay({
         <div className="pfOptions" role="list" aria-label="Presentation format options">
           {formats.map((f) => {
             const isSelected = f.id === selectedFormatId;
-            const isEndToEnd = getFormatTitle(f) === "End-to-End";
+            const displayTitle = getFormatTitle(f);
+            const isEndToEnd = displayTitle === "End-to-End";
 
             return (
               <div key={f.id} className="pfOptionGroup" role="listitem">
@@ -131,12 +155,12 @@ export default function PresentationFormatOverlay({
                   aria-pressed={isSelected}
                 >
                   <div className="pfOptionText">
-                    <div className="pfOptionTitle">{getFormatTitle(f)}</div>
+                    <div className="pfOptionTitle">{displayTitle}</div>
                     <div className="pfOptionDesc">{getFormatTagline(f)}</div>
                   </div>
 
                   <span className="pfOptionAction" aria-hidden="true">
-                    <RowArrowIcon />
+                    {getFormatRowEndIcon(displayTitle)}
                   </span>
                 </button>
 

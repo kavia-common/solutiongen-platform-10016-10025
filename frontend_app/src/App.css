@@ -1236,15 +1236,22 @@ select.udcInput:valid{
 }
 
 .pfOptionAction{
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
+  /* Match screenshot: small yellow rounded-square at row end */
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background: var(--accent-yellow);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-yellow-text); /* dark icon/text on yellow */
+  color: #0B2230; /* dark navy foreground per notes */
   flex-shrink: 0;
+}
+
+.pfPptIcon{
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 .pfSectionLabel{
