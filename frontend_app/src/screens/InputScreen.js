@@ -115,7 +115,7 @@ export default function InputScreen() {
       },
       {
         id: "technical_deep_dive",
-        title: "Technical Deep-Dive",
+        title: "Architecture & Design",
         description: "Detailed technical presentation with diagrams and architecture",
       },
       {

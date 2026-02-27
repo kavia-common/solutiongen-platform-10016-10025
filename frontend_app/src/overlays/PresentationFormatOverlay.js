@@ -24,6 +24,7 @@ export default function PresentationFormatOverlay({
   const titleOverrides = {
     "Executive Deck": "Project Solution Framework Deck",
     "Technical Deep Dive": "Architecture & Design",
+    "Technical Deep-Dive": "Architecture & Design",
     "Architecture & Diagrams": "Capability / Demo Deck",
     "Workflow & Process": "End-to-End Deck",
   };
