@@ -614,6 +614,15 @@
   width: 100%;
   min-height: 42px; /* match .udcInput height */
   justify-content: flex-start;
+
+  /*
+    Visual alignment tweak (desktop/tablet):
+    Bring the Tata Elxsi / External "input-like" radios slightly upward without
+    affecting layout flow or collapsing spacing to surrounding rows.
+    We use a small relative offset so the grid spacing remains unchanged.
+  */
+  position: relative;
+  top: 12px; /* was effectively 16px via the broader .udcFieldset rule; slightly higher */
 }
 
 /* Business Unit uses label + select stacked, consistent with other fields */
