@@ -576,6 +576,12 @@
   gap: 8px;
 }
 
+/* Configuration: tighten spacing specifically between the
+   "User Organization" legend and its radio options. */
+.udcFieldset[aria-label="User organization"]{
+  gap: 4px; /* default is 8px from .udcField; reduce vertical gap only here */
+}
+
 .udcFieldset{
   border: 0;
   padding: 0;
