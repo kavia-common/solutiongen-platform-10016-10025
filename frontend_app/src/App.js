@@ -30,7 +30,7 @@ function App() {
   const [purpose, setPurpose] = useState("");
 
   /** Client type selection (radio). */
-  const [clientType, setClientType] = useState("new");
+  const [clientType, setClientType] = useState("");
   /** Client name input. */
   const [companyName, setCompanyName] = useState("");
   /** Tagline input (optional). */
@@ -454,6 +454,9 @@ function App() {
                     value={clientType}
                     onChange={(e) => setClientType(e.target.value)}
                   >
+                    <option value="" disabled>
+                      Select client type
+                    </option>
                     <option value="new">New</option>
                     <option value="existing">Existing</option>
                   </select>
