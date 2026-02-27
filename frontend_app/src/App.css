@@ -589,10 +589,11 @@ select.udcInput:valid{
   gap: 8px;
 }
 
-/* Configuration: tighten spacing specifically between the
-   "User Organization" legend and its radio options. */
+/* Configuration: keep spacing consistent between label -> control across the row:
+   - "User Organization" (legend -> radios) should match
+   - "Business Unit" (label -> select) spacing (8px via .udcField/.udcOrgBusinessUnit gap). */
 .udcFieldset[aria-label="User organization"]{
-  gap: 4px; /* default is 8px from .udcField; reduce vertical gap only here */
+  gap: 8px; /* match default .udcField gap so it equals Business Unit label->select */
 }
 
 .udcFieldset{
@@ -612,33 +613,18 @@ select.udcInput:valid{
   display: grid;
 
   /*
-    Add a slight vertical gap between the "User Organization" legend and this row
-    WITHOUT affecting same-line alignment of the controls.
+    DO NOT add extra top margin here; the vertical spacing between
+    "User Organization" (legend) and this row should be driven by the
+    fieldset's flex gap, and match the Business Unit label->select gap.
   */
-  margin-top: 6px;
 
   /*
     Keep Tata Elxsi + External inline, and place Business Unit in the same row.
-    Key behavior for this task:
     - Align to the bottom so the Business Unit <select> baseline lines up with the radio controls.
-    - Remain responsive: third column flexes, and we still stack at small widths (see @media).
   */
   grid-template-columns: minmax(160px, 200px) minmax(140px, 180px) minmax(0, 1fr);
   gap: 10px;
-  align-items: end; /* aligns BU control with External radio, matching screenshot */
-}
-
-/*
-  When Business Unit is visible, reduce the vertical gap between the
-  "User Organization" label (legend) and the inline controls row.
-
-  We detect BU visibility by checking if the 3rd column has content:
-  - When BU is not shown, .udcOrgRow has only 2 children (2 radio labels),
-    so :has(> :nth-child(3)) is false.
-  - When BU is shown, a 3rd child (.udcOrgBusinessUnit) exists, so it becomes true.
-*/
-.udcOrgRow:has(> :nth-child(3)){
-  margin-top: 2px;
+  align-items: end; /* keeps all controls aligned on one line */
 }
 
 /* Add vertical breathing room after the entire organization row so it doesn't
