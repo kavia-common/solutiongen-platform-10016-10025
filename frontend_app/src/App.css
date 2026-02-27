@@ -986,12 +986,13 @@ select.udcInput:valid{
 }
 
 .pfModal{
-  width: min(560px, calc(100vw - 32px));
+  /* Increased modal size for readability while keeping the same layout/behavior. */
+  width: min(720px, calc(100vw - 32px));
   border-radius: 12px;
   background: #0F1A23;
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-  padding: 16px;
+  padding: 22px;
 }
 
 .pfHeader{
@@ -1009,17 +1010,17 @@ select.udcInput:valid{
 }
 
 .pfTitle{
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   color: #EAF0F6;
-  line-height: 20px;
+  line-height: 24px;
 }
 
 .pfSubtitle{
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: #8FA3B5;
-  line-height: 16px;
+  line-height: 18px;
 }
 
 .pfCloseBtn{
@@ -1062,9 +1063,9 @@ select.udcInput:valid{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
 
-  padding: 12px 14px;
+  padding: 16px 18px;
   border-radius: 8px;
   background: #0E2232;
   border: 1px solid rgba(255,255,255,0.08);
@@ -1096,24 +1097,24 @@ select.udcInput:valid{
 }
 
 .pfOptionTitle{
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #EAF0F6;
-  line-height: 18px;
+  line-height: 20px;
 }
 
 .pfOptionDesc{
-  margin-top: 4px;
-  font-size: 11px;
+  margin-top: 6px;
+  font-size: 13px;
   font-weight: 400;
   color: #8FA3B5;
-  line-height: 15px;
+  line-height: 18px;
 }
 
 .pfOptionAction{
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
   background: #B8862B;
   display: inline-flex;
   align-items: center;
@@ -1123,16 +1124,16 @@ select.udcInput:valid{
 }
 
 .pfSectionLabel{
-  margin-top: 12px;
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-top: 14px;
+  margin-bottom: 10px;
+  font-size: 14px;
   font-weight: 500;
   color: #8FA3B5;
 }
 
 .pfBottomBar{
-  margin-top: 10px;
-  padding-top: 12px;
+  margin-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255,255,255,0.06);
 
   display: flex;
@@ -1145,23 +1146,23 @@ select.udcInput:valid{
 .pfSlideCountWrap{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 10px;
-  border-radius: 8px;
+  gap: 10px;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
   background: #0B1620;
   border: 1px solid rgba(255,255,255,0.10);
   color: #EAF0F6;
 }
 
 .pfSlideCountInput{
-  width: 64px;
+  width: 72px;
   border: none;
   outline: none;
   background: transparent;
   color: #EAF0F6;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .pfSlideCountInput::-webkit-outer-spin-button,
@@ -1171,20 +1172,20 @@ select.udcInput:valid{
 }
 
 .pfSlidesSuffix{
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: #8FA3B5;
 }
 
 .pfContinueBtn{
-  height: 36px;
+  height: 42px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #B8862B;
   color: #111821;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 18px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
