@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 
 /**
@@ -18,6 +18,14 @@ function App() {
   const [showAccessKeyId, setShowAccessKeyId] = useState(false);
   /** Whether the Secret Access Key is visible (unmasked). */
   const [showSecretAccessKey, setShowSecretAccessKey] = useState(false);
+
+  /**
+   * Presentation format overlay state (opened when Presentation tile is clicked).
+   * Persisted within the screen state (so reopening shows previous selection).
+   */
+  const [isPresentationFormatOpen, setIsPresentationFormatOpen] = useState(false);
+  const [presentationFormat, setPresentationFormat] = useState(null);
+  const [presentationSlideCount, setPresentationSlideCount] = useState(7);
 
   /**
    * Simple validation state for required credentials.
@@ -82,6 +90,44 @@ function App() {
     ],
     []
   );
+
+  const presentationFormatOptions = useMemo(
+    () => [
+      {
+        id: "executive_deck",
+        title: "Executive Deck",
+        description: "High-level overview presentation with decision makers",
+      },
+      {
+        id: "technical_deep_dive",
+        title: "Technical Deep-Dive",
+        description: "Detailed technical presentation with diagrams and architecture",
+      },
+      {
+        id: "architecture_diagrams",
+        title: "Architecture & Diagrams",
+        description: "Visual architecture presentation with infrastructure layout",
+      },
+      {
+        id: "workflow_process",
+        title: "Workflow & Process",
+        description: "Process flow presentation with step-by-step interaction flow",
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    if (!isPresentationFormatOpen) return;
+
+    // Close on ESC to match common modal interaction patterns.
+    function onKeyDown(e) {
+      if (e.key === "Escape") setIsPresentationFormatOpen(false);
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isPresentationFormatOpen]);
 
   // PUBLIC_INTERFACE
   function openFilePicker() {
@@ -150,6 +196,15 @@ function App() {
   }
 
   // PUBLIC_INTERFACE
+  function onOutputTypeClick(typeId) {
+    // Ensure that clicking Presentation opens the overlay.
+    if (typeId === "presentation") {
+      setIsPresentationFormatOpen(true);
+    }
+    toggleOutputType(typeId);
+  }
+
+  // PUBLIC_INTERFACE
   function onContinue() {
     // Show required validation feedback for Access Key ID & Secret Access Key.
     setShowCredentialValidation(true);
@@ -160,8 +215,20 @@ function App() {
 
     // eslint-disable-next-line no-alert
     alert(
-      `Continue\n\nClient: ${companyName}\nOutput: ${outputTypes.join(", ")}\nFiles: ${files.length}`
+      `Continue\n\nClient: ${companyName}\nOutput: ${outputTypes.join(
+        ", "
+      )}\nPPT Format: ${presentationFormat || "(none)"}\nSlides: ${presentationSlideCount}\nFiles: ${
+        files.length
+      }`
     );
+  }
+
+  // PUBLIC_INTERFACE
+  function onPresentationFormatContinue() {
+    // Close overlay and keep the selection state persisted in App state.
+    // In later steps, this should influence generation parameters.
+    if (!presentationFormat) return;
+    setIsPresentationFormatOpen(false);
   }
 
   const accessKeyIdMissing =
@@ -268,7 +335,7 @@ function App() {
                       .join(" ")
                       .trim()}
                     aria-pressed={selected}
-                    onClick={() => toggleOutputType(opt.id)}
+                    onClick={() => onOutputTypeClick(opt.id)}
                   >
                     <div className="udcTileIcon">{opt.icon}</div>
                     <div className="udcTileTitle">{opt.title}</div>
@@ -553,7 +620,139 @@ function App() {
           </div>
         </section>
       </main>
+
+      {isPresentationFormatOpen ? (
+        <PresentationFormatOverlay
+          formats={presentationFormatOptions}
+          selectedFormatId={presentationFormat}
+          slideCount={presentationSlideCount}
+          onSlideCountChange={setPresentationSlideCount}
+          onSelectFormat={setPresentationFormat}
+          onClose={() => setIsPresentationFormatOpen(false)}
+          onContinue={onPresentationFormatContinue}
+        />
+      ) : null}
     </div>
+  );
+}
+
+function PresentationFormatOverlay({
+  formats,
+  selectedFormatId,
+  slideCount,
+  onSlideCountChange,
+  onSelectFormat,
+  onClose,
+  onContinue,
+}) {
+  const slideCountInputId = "presentationSlideCount";
+
+  // Clamp to a safe, reasonable range and keep it integer-only.
+  function setSlideCountSafe(next) {
+    const asNumber = Number(next);
+    if (!Number.isFinite(asNumber)) return;
+    const clamped = Math.max(1, Math.min(99, Math.round(asNumber)));
+    onSlideCountChange(clamped);
+  }
+
+  return (
+    <div
+      className="pfOverlayScrim"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Select Presentation Format"
+      onMouseDown={(e) => {
+        // Clicking the scrim closes (common modal behavior). Only close when
+        // the user clicks the scrim itself, not inside the modal content.
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="pfModal" role="document">
+        <div className="pfHeader">
+          <div className="pfHeaderText">
+            <div className="pfTitle">Select Presentation Format</div>
+            <div className="pfSubtitle">Choose the type of presentation that best fits your needs</div>
+          </div>
+
+          <button type="button" className="pfCloseBtn" onClick={onClose} aria-label="Close">
+            <CloseXIcon />
+          </button>
+        </div>
+
+        <div className="pfOptions" role="list" aria-label="Presentation format options">
+          {formats.map((f) => {
+            const isSelected = f.id === selectedFormatId;
+
+            return (
+              <button
+                key={f.id}
+                type="button"
+                className={["pfOptionRow", isSelected ? "isSelected" : ""].join(" ").trim()}
+                onClick={() => onSelectFormat(f.id)}
+                aria-pressed={isSelected}
+              >
+                <div className="pfOptionText">
+                  <div className="pfOptionTitle">{f.title}</div>
+                  <div className="pfOptionDesc">{f.description}</div>
+                </div>
+
+                <span className="pfOptionAction" aria-hidden="true">
+                  <RowArrowIcon />
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="pfSectionLabel">Customize Slide Count</div>
+
+        <div className="pfBottomBar">
+          <label className="pfSlideCountWrap" htmlFor={slideCountInputId}>
+            <input
+              id={slideCountInputId}
+              className="pfSlideCountInput"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={99}
+              value={slideCount}
+              onChange={(e) => setSlideCountSafe(e.target.value)}
+              aria-label="Slide count"
+            />
+            <span className="pfSlidesSuffix" aria-hidden="true">
+              slides
+            </span>
+          </label>
+
+          <button
+            type="button"
+            className="pfContinueBtn"
+            onClick={onContinue}
+            disabled={!selectedFormatId}
+            aria-disabled={!selectedFormatId}
+          >
+            Continue <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CloseXIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function RowArrowIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
