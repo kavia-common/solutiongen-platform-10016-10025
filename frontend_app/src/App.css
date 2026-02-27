@@ -628,6 +628,19 @@ select.udcInput:valid{
   align-items: end; /* aligns BU control with External radio, matching screenshot */
 }
 
+/*
+  When Business Unit is visible, reduce the vertical gap between the
+  "User Organization" label (legend) and the inline controls row.
+
+  We detect BU visibility by checking if the 3rd column has content:
+  - When BU is not shown, .udcOrgRow has only 2 children (2 radio labels),
+    so :has(> :nth-child(3)) is false.
+  - When BU is shown, a 3rd child (.udcOrgBusinessUnit) exists, so it becomes true.
+*/
+.udcOrgRow:has(> :nth-child(3)){
+  margin-top: 2px;
+}
+
 /* Add vertical breathing room after the entire organization row so it doesn't
    visually touch the next row (User Role / Purpose). */
 .udcFieldset[aria-label="User organization"]{
