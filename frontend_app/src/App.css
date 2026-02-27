@@ -581,8 +581,15 @@
    appears to the right of External under Secret Access Key. */
 .udcOrgRow{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
+
+  /*
+    Reduce the space occupied by the two radio options so they don't feel overly wide,
+    while preserving a responsive layout and leaving comfortable room for Business Unit.
+    - First two columns: sized to their content (but capped), so they don't expand to 1fr each.
+    - Third column: takes remaining space for the Business Unit select.
+  */
+  grid-template-columns: minmax(160px, 200px) minmax(140px, 180px) minmax(0, 1fr);
+  gap: 10px;
   align-items: start;
 }
 
@@ -599,6 +606,10 @@
   flex-direction: column;
   gap: 8px;
   min-width: 0;
+
+  /* Move the label + dropdown up slightly for tighter alignment with the radio row. */
+  position: relative;
+  top: -3px;
 }
 
 /* Radio group container: keep Tata Elxsi + External inline on the same row when possible,
