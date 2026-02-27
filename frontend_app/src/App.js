@@ -54,13 +54,10 @@ function App() {
   }, [accessKeyId, secretAccessKey]);
 
   const canContinue = useMemo(() => {
-    return (
-      files.length > 0 &&
-      companyName.trim().length > 0 &&
-      outputTypes.length > 0 &&
-      credentialsValid
-    );
-  }, [files.length, companyName, outputTypes.length, credentialsValid]);
+    // Requirement: "Continue to Gap Analysis" should be enabled once BOTH
+    // Access Key ID and Secret Access Key are entered (non-empty).
+    return credentialsValid;
+  }, [credentialsValid]);
 
   const outputOptions = useMemo(
     () => [
