@@ -383,6 +383,7 @@ function App() {
                         className="udcInput"
                         value={businessUnit}
                         onChange={(e) => setBusinessUnit(e.target.value)}
+                        required
                       >
                         <option value="" disabled>
                           Select business unit
@@ -409,6 +410,7 @@ function App() {
                     className="udcInput"
                     value={userRole}
                     onChange={(e) => setUserRole(e.target.value)}
+                    required
                   >
                     <option value="" disabled>
                       Select user role
@@ -430,6 +432,7 @@ function App() {
                     className="udcInput"
                     value={purpose}
                     onChange={(e) => setPurpose(e.target.value)}
+                    required
                   >
                     <option value="" disabled>
                       Select purpose
@@ -453,6 +456,7 @@ function App() {
                     className="udcInput"
                     value={clientType}
                     onChange={(e) => setClientType(e.target.value)}
+                    required
                   >
                     <option value="" disabled>
                       Select client type

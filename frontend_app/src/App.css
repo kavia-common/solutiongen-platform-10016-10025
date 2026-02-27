@@ -547,6 +547,19 @@
   color: var(--text-muted);
 }
 
+/* Select placeholder styling:
+   When a <select> has value="" it is showing the disabled placeholder <option>.
+   We render it in the same muted color as text input placeholders, but keep the
+   normal text color for real selections. */
+select.udcInput:invalid{
+  color: var(--text-muted);
+}
+
+/* Ensure chosen values are not muted (covers most browsers). */
+select.udcInput:valid{
+  color: var(--text-primary);
+}
+
 .udcInput:focus{
   border-color: rgba(245,197,66,0.35);
   box-shadow: 0 0 0 4px rgba(245,197,66,0.10);
