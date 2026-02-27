@@ -23,7 +23,7 @@ export default function PresentationFormatOverlay({
   // This avoids requiring changes in upstream data sources while ensuring the UI copy matches the spec.
   const titleOverrides = {
     "Executive Deck": "Project Solution Framework Deck",
-    "Technical Deep Dive": "Architecture & Design Deck",
+    "Technical Deep Dive": "Architecture & Design",
     "Architecture & Diagrams": "Capability / Demo Deck",
     "Workflow & Process": "End-to-End Deck",
   };
