@@ -444,33 +444,20 @@ function App() {
 
               {/* Client Type + Client Name + Tagline in the same responsive row */}
               <div className="udcConfigClientRow">
-                <fieldset className="udcField udcFieldset" aria-label="Client type">
-                  <legend className="udcLabel">Client Type</legend>
-
-                  <div className="udcClientTypeRadioRow" role="radiogroup" aria-label="Client Type">
-                    <label className="udcRadioOption udcClientTypeRadioOption">
-                      <input
-                        type="radio"
-                        name="clientType"
-                        value="new"
-                        checked={clientType === "new"}
-                        onChange={() => setClientType("new")}
-                      />
-                      <span className="udcRadioLabelText">New</span>
-                    </label>
-
-                    <label className="udcRadioOption udcClientTypeRadioOption">
-                      <input
-                        type="radio"
-                        name="clientType"
-                        value="existing"
-                        checked={clientType === "existing"}
-                        onChange={() => setClientType("existing")}
-                      />
-                      <span className="udcRadioLabelText">Existing</span>
-                    </label>
-                  </div>
-                </fieldset>
+                <div className="udcField">
+                  <label className="udcLabel" htmlFor="clientType">
+                    Client Type
+                  </label>
+                  <select
+                    id="clientType"
+                    className="udcInput"
+                    value={clientType}
+                    onChange={(e) => setClientType(e.target.value)}
+                  >
+                    <option value="new">New</option>
+                    <option value="existing">Existing</option>
+                  </select>
+                </div>
 
                 <div className="udcField">
                   <label className="udcLabel" htmlFor="companyName">

@@ -568,25 +568,7 @@
   align-items: start;
 }
 
-/* Client Type radio group: two compact "input-like" radios stacked vertically */
-.udcClientTypeRadioRow{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 
-/* Ensure these options look aligned with other form controls */
-.udcClientTypeRadioOption{
-  width: 100%;
-  min-height: 42px; /* match .udcInput */
-  justify-content: flex-start;
-  position: static; /* override any offsets applied to radios in other fieldsets */
-}
-
-/* The legend label sits above; remove any special offsets from generic rules */
-.udcConfigClientRow .udcFieldset .udcRadioOption{
-  top: 0;
-}
 
 .udcField{
   display: flex;
