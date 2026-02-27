@@ -622,7 +622,7 @@
     We use a small relative offset so the grid spacing remains unchanged.
   */
   position: relative;
-  top: 10px; /* nudge upward by 2px while keeping surrounding spacing unchanged */
+  top: 9px; /* nudge upward by 1px more while keeping surrounding spacing unchanged */
 }
 
 /* Business Unit uses label + select stacked, consistent with other fields */
