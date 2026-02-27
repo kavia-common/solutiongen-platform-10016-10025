@@ -1087,8 +1087,8 @@ select.udcInput:valid{
 }
 
 .pfOptionRow.isSelected{
-  border-color: rgba(184, 134, 43, 0.85);
-  box-shadow: 0 0 0 1px rgba(184, 134, 43, 0.25);
+  border-color: rgba(245,197,66,0.85); /* = --accent-yellow */
+  box-shadow: 0 0 0 1px rgba(245,197,66,0.25);
   background: rgba(14, 34, 50, 1);
 }
 
@@ -1239,11 +1239,11 @@ select.udcInput:valid{
   width: 30px;
   height: 30px;
   border-radius: 7px;
-  background: #B8862B;
+  background: var(--accent-yellow);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #111821; /* dark icon */
+  color: var(--accent-yellow-text); /* dark icon/text on yellow */
   flex-shrink: 0;
 }
 
@@ -1305,8 +1305,8 @@ select.udcInput:valid{
   height: 42px;
   border: none;
   border-radius: 10px;
-  background: #B8862B;
-  color: #111821;
+  background: var(--accent-yellow);
+  color: var(--accent-yellow-text);
   font-size: 14px;
   font-weight: 700;
   padding: 0 18px;
@@ -1318,7 +1318,7 @@ select.udcInput:valid{
 }
 
 .pfContinueBtn:hover{
-  background: #C99633;
+  background: var(--accent-yellow-2);
   transform: translateY(-1px);
 }
 
