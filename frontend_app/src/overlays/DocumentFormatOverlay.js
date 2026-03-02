@@ -53,12 +53,20 @@ function DocOverviewIcon({ className = "" }) {
       aria-hidden="true"
       focusable="false"
     >
-      {/* panel with info dot + lines to imply "overview" */}
-      <rect x="4.5" y="5" width="15" height="14" rx="2.2" stroke="currentColor" strokeWidth="2" />
-      <path d="M9 9h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
-      <path d="M9 12.5h6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-      <path d="M9 16h5.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
-      <circle cx="7.2" cy="9.2" r="1.1" fill="currentColor" />
+      {/* document + magnifying glass to imply "overview" / "review" */}
+      <path
+        d="M7 3.8h7.7L19 8.1V20a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M14.7 3.8V8a2 2 0 0 0 2 2h2.3" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.5 12h6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path d="M8.5 15.5h5.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+
+      {/* magnifier */}
+      <circle cx="15.6" cy="15.6" r="2.2" stroke="currentColor" strokeWidth="2" />
+      <path d="M17.2 17.2l2.0 2.0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
