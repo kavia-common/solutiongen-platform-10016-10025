@@ -3,6 +3,136 @@ import "../App.css";
 import { CloseXIcon } from "../components/icons";
 
 /**
+ * Inline SVG icons for Document formats.
+ * Kept inside this overlay file to:
+ * - satisfy the "inline SVG" requirement
+ * - avoid coupling these one-off glyphs to the global icon set
+ *
+ * All icons are single-color and inherit currentColor so they match `.pfOptionAction`
+ * (yellow tile + dark foreground) and remain consistent with existing overlay styling.
+ */
+
+function DocPrimaryIcon({ className = "" }) {
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* document with a small star/badge to imply "primary/master" */}
+      <path
+        d="M7 3.8h7.7L19 8.1V20a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M14.7 3.8V8a2 2 0 0 0 2 2h2.3" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.5 12h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path d="M8.5 15.5h5.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path
+        d="M9.2 9.2 10 7.8l.8 1.4 1.6.3-1.1 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.1-1.1 1.6-.3Z"
+        fill="currentColor"
+        opacity="0.95"
+      />
+    </svg>
+  );
+}
+
+function DocOverviewIcon({ className = "" }) {
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* panel with info dot + lines to imply "overview" */}
+      <rect x="4.5" y="5" width="15" height="14" rx="2.2" stroke="currentColor" strokeWidth="2" />
+      <path d="M9 9h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path d="M9 12.5h6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <path d="M9 16h5.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+      <circle cx="7.2" cy="9.2" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function DocStatusReportIcon({ className = "" }) {
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* chart in a frame to imply "status/reporting" */}
+      <rect x="4.5" y="5" width="15" height="14" rx="2.2" stroke="currentColor" strokeWidth="2" />
+      <path d="M8 16.8v-4.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M12 16.8v-7.0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path d="M16 16.8v-5.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <path d="M7.2 17.2h10.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+    </svg>
+  );
+}
+
+function DocSowIcon({ className = "" }) {
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* contract-like document with check to imply SOW */}
+      <path
+        d="M7 3.8h7.7L19 8.1V20a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M14.7 3.8V8a2 2 0 0 0 2 2h2.3" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.5 12h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.95" />
+      <path d="M8.5 15.5h4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <path
+        d="M9 18.2l1.3 1.3L14.4 15.4"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function getDocFormatRowEndIcon(title) {
+  // Map by displayed title.
+  const normalized = (title || "").toLowerCase();
+
+  if (normalized.includes("primary")) return <DocPrimaryIcon className="pfPptIcon" />;
+  if (normalized.includes("overview")) return <DocOverviewIcon className="pfPptIcon" />;
+  if (normalized.includes("status")) return <DocStatusReportIcon className="pfPptIcon" />;
+  // Covers: "Statement of Work (SOW)" / "SOW" / "Statement of Work"
+  if (normalized.includes("statement of work") || normalized === "sow" || normalized.includes("(sow)")) {
+    return <DocSowIcon className="pfPptIcon" />;
+  }
+
+  // Fallback: use a neutral doc icon
+  return <DocOverviewIcon className="pfPptIcon" />;
+}
+
+/**
  * Document format selection overlay.
  * Mirrors the Presentation format overlay interaction patterns:
  * - Option list in a modal overlay
@@ -105,7 +235,7 @@ export default function DocumentFormatOverlay({
                   </div>
 
                   <span className="pfOptionAction" aria-hidden="true">
-                    ✓
+                    {getDocFormatRowEndIcon(f.title)}
                   </span>
                 </button>
               </div>
