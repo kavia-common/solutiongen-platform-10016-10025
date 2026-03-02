@@ -938,6 +938,111 @@ select.udcInput:valid{
   color: rgba(0,0,0,0.70);
 }
 
+/* ================================
+   Inline format list (Document)
+   Shown under Output Type tiles when Document is selected.
+   Styled to match the Presentation format list rows.
+================================ */
+
+.udcInlineFormatWrap{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.udcInlineFormatHeader{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.udcInlineFormatTitle{
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(234,240,246,0.92);
+}
+
+.udcInlineFormatSubtitle{
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #8FA3B5;
+}
+
+.udcInlineFormatList{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.udcInlineFormatRow{
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #0E2232;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  color: inherit;
+}
+
+.udcInlineFormatRow:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(14, 34, 50, 0.95);
+}
+
+.udcInlineFormatRow:focus-visible{
+  outline: 2px solid rgba(245,197,66,0.45);
+  outline-offset: 2px;
+}
+
+.udcInlineFormatRow.isSelected{
+  border-color: rgba(245,197,66,0.85);
+  box-shadow: 0 0 0 1px rgba(245,197,66,0.25);
+  background: rgba(14, 34, 50, 1);
+}
+
+.udcInlineFormatText{
+  min-width: 0;
+}
+
+.udcInlineFormatRowTitle{
+  font-size: 15px;
+  font-weight: 600;
+  color: #EAF0F6;
+  line-height: 20px;
+}
+
+.udcInlineFormatRowDesc{
+  margin-top: 6px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #8FA3B5;
+  line-height: 17px;
+}
+
+.udcInlineFormatAction{
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent-yellow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0B2230;
+  flex-shrink: 0;
+  font-weight: 900;
+  font-size: 14px;
+}
+
 /* Responsive behavior */
 @media (max-width: 900px){
   .udcNav{ display:none; } /* keeps header clean on smaller widths */

@@ -25,6 +25,13 @@ import {
 export default function InputScreen() {
   /** Selected output types (multi-select). No default selection. */
   const [outputTypes, setOutputTypes] = useState([]);
+
+  /**
+   * Document format list state (shown inline when Document output type is selected).
+   * This mirrors the interaction pattern of the presentation format list (but inline, not modal).
+   */
+  const [documentFormat, setDocumentFormat] = useState(null);
+
   /** Access key id input (credential). */
   const [accessKeyId, setAccessKeyId] = useState("");
   /** Secret access key input (credential). */
@@ -134,6 +141,32 @@ export default function InputScreen() {
     []
   );
 
+  const documentFormatOptions = useMemo(
+    () => [
+      {
+        id: "primary_master_document",
+        title: "Primary Master Document",
+        description: "Comprehensive master deliverable capturing the full solution",
+      },
+      {
+        id: "project_overview_document",
+        title: "Project Overview Document",
+        description: "Executive-friendly overview of goals, scope, and approach",
+      },
+      {
+        id: "status_report",
+        title: "Status Report",
+        description: "Progress update with milestones, risks, and next steps",
+      },
+      {
+        id: "statement_of_work",
+        title: "Statement of Work (SOW)",
+        description: "Scope, deliverables, timeline, and responsibilities",
+      },
+    ],
+    []
+  );
+
   useEffect(() => {
     if (!isPresentationFormatOpen) return;
 
@@ -207,7 +240,12 @@ export default function InputScreen() {
   // PUBLIC_INTERFACE
   function toggleOutputType(typeId) {
     setOutputTypes((prev) => {
-      if (prev.includes(typeId)) return prev.filter((t) => t !== typeId);
+      const isSelected = prev.includes(typeId);
+
+      // If user is deselecting Document, clear the dependent document format.
+      if (isSelected && typeId === "summary") setDocumentFormat(null);
+
+      if (isSelected) return prev.filter((t) => t !== typeId);
       return [...prev, typeId];
     });
   }
@@ -395,6 +433,40 @@ export default function InputScreen() {
                 );
               })}
             </div>
+
+            {outputTypes.includes("summary") ? (
+              <div className="udcInlineFormatWrap" aria-label="Document format options">
+                <div className="udcInlineFormatHeader">
+                  <div className="udcInlineFormatTitle">Document Format</div>
+                  <div className="udcInlineFormatSubtitle">Choose the type of document you want to generate</div>
+                </div>
+
+                <div className="udcInlineFormatList" role="list" aria-label="Document format list">
+                  {documentFormatOptions.map((f) => {
+                    const isSelected = f.id === documentFormat;
+
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        className={["udcInlineFormatRow", isSelected ? "isSelected" : ""].join(" ").trim()}
+                        onClick={() => setDocumentFormat(f.id)}
+                        aria-pressed={isSelected}
+                      >
+                        <div className="udcInlineFormatText">
+                          <div className="udcInlineFormatRowTitle">{f.title}</div>
+                          <div className="udcInlineFormatRowDesc">{f.description}</div>
+                        </div>
+
+                        <span className="udcInlineFormatAction" aria-hidden="true">
+                          ✓
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
           </Card>
 
           <Card title="Configuration" icon={<ConfigurationHeaderYellowIcon />} ariaLabel="Configuration">
