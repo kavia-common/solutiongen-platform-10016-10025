@@ -4,6 +4,7 @@ import HeaderBar from "../components/HeaderBar";
 import Stepper from "../components/Stepper";
 import Card from "../components/Card";
 import PresentationFormatOverlay from "../overlays/PresentationFormatOverlay";
+import DocumentFormatOverlay from "../overlays/DocumentFormatOverlay";
 import {
   UploadCardHeaderYellowIcon,
   ChooseOutputTypeHeaderYellowIcon,
@@ -27,10 +28,14 @@ export default function InputScreen() {
   const [outputTypes, setOutputTypes] = useState([]);
 
   /**
-   * Document format list state (shown inline when Document output type is selected).
-   * This mirrors the interaction pattern of the presentation format list (but inline, not modal).
+   * Document format overlay state (opened when Document tile is clicked).
+   * Mirrors the Presentation overlay behavior and persists selection in state.
    */
+  const [isDocumentFormatOpen, setIsDocumentFormatOpen] = useState(false);
   const [documentFormat, setDocumentFormat] = useState(null);
+  const [documentSlideCount, setDocumentSlideCount] = useState(0);
+  /** Custom document type when user chooses "Other". */
+  const [documentFormatOther, setDocumentFormatOther] = useState("");
 
   /** Access key id input (credential). */
   const [accessKeyId, setAccessKeyId] = useState("");
@@ -168,16 +173,18 @@ export default function InputScreen() {
   );
 
   useEffect(() => {
-    if (!isPresentationFormatOpen) return;
+    if (!isPresentationFormatOpen && !isDocumentFormatOpen) return;
 
     // Close on ESC to match common modal interaction patterns.
     function onKeyDown(e) {
-      if (e.key === "Escape") setIsPresentationFormatOpen(false);
+      if (e.key !== "Escape") return;
+      if (isPresentationFormatOpen) setIsPresentationFormatOpen(false);
+      if (isDocumentFormatOpen) setIsDocumentFormatOpen(false);
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isPresentationFormatOpen]);
+  }, [isPresentationFormatOpen, isDocumentFormatOpen]);
 
   // PUBLIC_INTERFACE
   function openFilePicker() {
@@ -242,8 +249,13 @@ export default function InputScreen() {
     setOutputTypes((prev) => {
       const isSelected = prev.includes(typeId);
 
-      // If user is deselecting Document, clear the dependent document format.
-      if (isSelected && typeId === "summary") setDocumentFormat(null);
+      // If user is deselecting Document, clear all dependent document selections.
+      if (isSelected && typeId === "summary") {
+        setDocumentFormat(null);
+        setDocumentFormatOther("");
+        setDocumentSlideCount(0);
+        setIsDocumentFormatOpen(false);
+      }
 
       if (isSelected) return prev.filter((t) => t !== typeId);
       return [...prev, typeId];
@@ -256,6 +268,12 @@ export default function InputScreen() {
     if (typeId === "presentation") {
       setIsPresentationFormatOpen(true);
     }
+
+    // Ensure that clicking Document opens the overlay (matching Presentation behavior).
+    if (typeId === "summary") {
+      setIsDocumentFormatOpen(true);
+    }
+
     toggleOutputType(typeId);
   }
 
@@ -318,6 +336,39 @@ export default function InputScreen() {
 
     // Clearing Other resets slide count to 0 (slide count is only meaningful for Other mode).
     if (!otherPresent && Number(presentationSlideCount) !== 0) setPresentationSlideCount(0);
+  }
+
+  // PUBLIC_INTERFACE
+  function onDocumentFormatContinue() {
+    // Mutually exclusive modes:
+    // - Preset mode: `documentFormat` is set, `documentFormatOther` is empty.
+    // - Other mode: `documentFormatOther` is non-empty, `documentFormat` is null.
+    const otherPresent = (documentFormatOther || "").trim().length > 0;
+
+    if (!documentFormat && !otherPresent) return;
+    setIsDocumentFormatOpen(false);
+  }
+
+  // Mutually exclusive behavior: preset selection vs "Other"
+  function handleSelectDocumentFormat(formatId) {
+    setDocumentFormat(formatId);
+
+    // Selecting a preset clears Other and slide count.
+    if ((documentFormatOther || "").trim().length > 0) setDocumentFormatOther("");
+    if (Number(documentSlideCount) !== 0) setDocumentSlideCount(0);
+  }
+
+  // Mutually exclusive behavior: preset selection vs "Other"
+  function handleDocumentOtherChange(nextText) {
+    setDocumentFormatOther(nextText);
+
+    const otherPresent = (nextText || "").trim().length > 0;
+
+    // Typing Other clears preset selection.
+    if (otherPresent && documentFormat) setDocumentFormat(null);
+
+    // Clearing Other resets slide count to 0.
+    if (!otherPresent && Number(documentSlideCount) !== 0) setDocumentSlideCount(0);
   }
 
   return (
@@ -434,39 +485,7 @@ export default function InputScreen() {
               })}
             </div>
 
-            {outputTypes.includes("summary") ? (
-              <div className="udcInlineFormatWrap" aria-label="Document format options">
-                <div className="udcInlineFormatHeader">
-                  <div className="udcInlineFormatTitle">Document Format</div>
-                  <div className="udcInlineFormatSubtitle">Choose the type of document you want to generate</div>
-                </div>
-
-                <div className="udcInlineFormatList" role="list" aria-label="Document format list">
-                  {documentFormatOptions.map((f) => {
-                    const isSelected = f.id === documentFormat;
-
-                    return (
-                      <button
-                        key={f.id}
-                        type="button"
-                        className={["udcInlineFormatRow", isSelected ? "isSelected" : ""].join(" ").trim()}
-                        onClick={() => setDocumentFormat(f.id)}
-                        aria-pressed={isSelected}
-                      >
-                        <div className="udcInlineFormatText">
-                          <div className="udcInlineFormatRowTitle">{f.title}</div>
-                          <div className="udcInlineFormatRowDesc">{f.description}</div>
-                        </div>
-
-                        <span className="udcInlineFormatAction" aria-hidden="true">
-                          ✓
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
+            {/* Document format selection is handled via a modal overlay (like Presentation). */}
           </Card>
 
           <Card title="Configuration" icon={<ConfigurationHeaderYellowIcon />} ariaLabel="Configuration">
@@ -738,6 +757,20 @@ export default function InputScreen() {
           onOtherTextChange={handlePresentationOtherChange}
           onClose={() => setIsPresentationFormatOpen(false)}
           onContinue={onPresentationFormatContinue}
+        />
+      ) : null}
+
+      {isDocumentFormatOpen ? (
+        <DocumentFormatOverlay
+          formats={documentFormatOptions}
+          selectedFormatId={documentFormat}
+          slideCount={documentSlideCount}
+          onSlideCountChange={setDocumentSlideCount}
+          onSelectFormat={handleSelectDocumentFormat}
+          otherText={documentFormatOther}
+          onOtherTextChange={handleDocumentOtherChange}
+          onClose={() => setIsDocumentFormatOpen(false)}
+          onContinue={onDocumentFormatContinue}
         />
       ) : null}
     </div>
